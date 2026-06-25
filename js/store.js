@@ -9,6 +9,8 @@ const GLOW = (() => {
     cart: "glow_cart_v3",
     wishlist: "glow_wishlist_v1",
     orders: "glow_orders_v1",
+    slides: "glow_slides_v1",
+    cats: "glow_cats_v1",
     admin: "glow_admin_session",
   };
 
@@ -26,6 +28,13 @@ const GLOW = (() => {
     { key: "Декоративная косметика", icon: "💄" },
     { key: "Наборы",                 icon: "🎁" },
     { key: "Сертификаты",            icon: "🎟️" },
+  ];
+
+  /* ---------- Слайды главного баннера ---------- */
+  const SEED_SLIDES = [
+    { id:"s1", tone:"t1", emoji:"💆‍♀️", image:"", title:"GLOW", pill:"full-size в подарок", subtitle:"при покупке от 15 000 ₽", btn:"в каталог", link:"#catalog" },
+    { id:"s2", tone:"t2", emoji:"💄", image:"", title:"−30%", pill:"сезон распродаж", subtitle:"на бестселлеры COSRX, Anua и Beauty of Joseon", btn:"смотреть акции", link:"#sale" },
+    { id:"s3", tone:"t3", emoji:"✨", image:"", title:"Наборы", pill:"готовый ритуал ухода", subtitle:"тонер, сыворотка, крем и SPF со скидкой до 25%", btn:"выбрать набор", link:"#catalog" },
   ];
 
   /* ---------- Приглушённые тона «упаковки» ---------- */
@@ -97,8 +106,39 @@ const GLOW = (() => {
   }
   function deleteProduct(id) { saveProducts(getProducts().filter((p) => p.id !== id)); }
   function resetProducts() { write(KEYS.products, SEED_PRODUCTS); }
-  function getCategories() { return CATEGORIES; }
   function countByCategory(key) { return getProducts().filter((p) => p.category === key).length; }
+
+  /* ---------- Категории (с оверрайдами иконки/фото из админки) ---------- */
+  function getCategories() {
+    const ov = read(KEYS.cats, {});
+    return CATEGORIES.map((c) => ({
+      key: c.key,
+      icon: (ov[c.key] && ov[c.key].icon) || c.icon,
+      image: (ov[c.key] && ov[c.key].image) || "",
+    }));
+  }
+  function updateCategory(key, d) {
+    const ov = read(KEYS.cats, {});
+    ov[key] = { icon: d.icon || "", image: d.image || "" };
+    write(KEYS.cats, ov);
+  }
+  function resetCategories() { write(KEYS.cats, {}); }
+
+  /* ---------- Слайды ---------- */
+  function getSlides() { let s = read(KEYS.slides, null); if (!s) { s = SEED_SLIDES; write(KEYS.slides, s); } return s; }
+  function saveSlides(s) { write(KEYS.slides, s); }
+  function addSlide(d) {
+    const s = getSlides();
+    s.push({ id: "s" + Date.now(), tone: d.tone || "t1", emoji: d.emoji || "✨", image: d.image || "",
+      title: d.title || "", pill: d.pill || "", subtitle: d.subtitle || "", btn: d.btn || "в каталог", link: d.link || "#catalog" });
+    saveSlides(s);
+  }
+  function updateSlide(id, d) {
+    const s = getSlides(); const i = s.findIndex((x) => x.id === id);
+    if (i < 0) return; s[i] = { ...s[i], ...d }; saveSlides(s);
+  }
+  function deleteSlide(id) { saveSlides(getSlides().filter((x) => x.id !== id)); }
+  function resetSlides() { write(KEYS.slides, SEED_SLIDES); }
   function discountPercent(p) { return p.oldPrice > p.price ? Math.round((1 - p.price / p.oldPrice) * 100) : 0; }
 
   /* ---------- Корзина ---------- */
@@ -178,6 +218,8 @@ const GLOW = (() => {
     TONES, CATEGORIES,
     getProducts, saveProducts, addProduct, updateProduct, deleteProduct,
     resetProducts, getCategories, countByCategory, discountPercent,
+    updateCategory, resetCategories,
+    getSlides, saveSlides, addSlide, updateSlide, deleteSlide, resetSlides,
     getCart, addToCart, setQty, removeFromCart, clearCart,
     cartCount, cartDetailed, cartTotal, cartSavings, shippingInfo,
     getWishlist, toggleWishlist, inWishlist, wishlistCount, wishlistProducts,

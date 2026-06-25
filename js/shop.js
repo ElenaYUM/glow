@@ -107,10 +107,10 @@
   }
   function renderCatGrid() {
     $("#catGrid").innerHTML = GLOW.getCategories().map((c) => `
-      <button class="cat-tile reveal" data-cat="${c.key}">
+      <button class="cat-tile reveal ${c.image ? "has-img" : ""}" data-cat="${c.key}"${c.image ? ` style="background-image:url('${c.image}')"` : ""}>
         <b>${c.key}</b>
         <span>${GLOW.countByCategory(c.key)} товаров</span>
-        <span class="emojis">${c.icon}</span>
+        ${c.image ? "" : `<span class="emojis">${c.icon}</span>`}
       </button>`).join("");
     $$("[data-cat]", $("#catGrid")).forEach((b) => b.addEventListener("click", () => setCategory(b.dataset.cat)));
   }
@@ -305,6 +305,23 @@
   }
 
   /* ---------- Слайдер ---------- */
+  function renderSlides() {
+    const slides = GLOW.getSlides();
+    const wrap = $("#slides");
+    if (!slides.length) { $("#slider").style.display = "none"; return; }
+    $("#slider").style.display = "";
+    wrap.innerHTML = slides.map((s) => `
+      <div class="slide ${s.tone}">
+        <div class="s-copy">
+          ${s.emoji ? `<span class="s-prod">${s.emoji}</span>` : ""}
+          <h2>${s.title}</h2>
+          ${s.pill ? `<span class="s-pill">${s.pill}</span>` : ""}
+          ${s.subtitle ? `<p>${s.subtitle}</p>` : ""}
+          ${s.btn ? `<a href="${s.link || "#catalog"}" class="btn btn-red">${s.btn} <span class="arrow">→</span></a>` : ""}
+        </div>
+        <div class="s-visual"${s.image ? ` style="background-image:url('${s.image}');background-size:cover;background-position:center"` : ""}>${s.image ? "" : `<span class="motif">${s.emoji || "✦"}</span>`}</div>
+      </div>`).join("");
+  }
   function initSlider() {
     const slides = $("#slides"), count = slides.children.length;
     let idx = 0, timer;
@@ -343,7 +360,7 @@
   function init() {
     renderCatNav(); renderCatGrid(); renderFooterCats(); renderMobileMenu();
     renderFilters(); renderSale(); renderNew(); renderCatalog();
-    updateCartCount(); updateWishCount(); initSlider(); observeReveal();
+    updateCartCount(); updateWishCount(); renderSlides(); initSlider(); observeReveal();
 
     $("#catalogBtn").addEventListener("click", () => $("#categories").scrollIntoView({ behavior: "smooth" }));
     $("#burger").addEventListener("click", openMobile);

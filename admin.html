@@ -49,10 +49,18 @@
     <main class="admin-wrap">
       <div class="container">
         <div class="admin-head">
-          <h1>Управление товарами</h1>
-          <p>Добавляйте, редактируйте и удаляйте позиции каталога — изменения сразу появятся в магазине</p>
+          <h1>Управление сайтом</h1>
+          <p>Товары, баннеры слайдера и плитки категорий — всё меняется здесь и сразу появляется в магазине</p>
         </div>
 
+        <div class="admin-tabs">
+          <button class="atab active" data-tab="products">🛍️ Товары</button>
+          <button class="atab" data-tab="slides">🎞️ Слайдер</button>
+          <button class="atab" data-tab="cats">🧱 Категории</button>
+        </div>
+
+        <!-- ВКЛАДКА: ТОВАРЫ -->
+        <div class="tabpane" id="tab-products">
         <div class="stats" id="stats"></div>
 
         <div class="admin-cols">
@@ -113,6 +121,62 @@
             </div>
           </div>
         </div>
+        </div><!-- /tab-products -->
+
+        <!-- ВКЛАДКА: СЛАЙДЕР -->
+        <div class="tabpane" id="tab-slides" hidden>
+          <div class="admin-cols">
+            <div class="panel">
+              <h3 id="slideFormTitle">Новый слайд</h3>
+              <form id="slideForm">
+                <input type="hidden" id="s_id" />
+                <div class="field"><label>Заголовок</label><input type="text" id="s_title" placeholder="GLOW" required /></div>
+                <div class="field"><label>Плашка (пилюля)</label><input type="text" id="s_pill" placeholder="full-size в подарок" /></div>
+                <div class="field"><label>Подпись</label><input type="text" id="s_subtitle" placeholder="при покупке от 15 000 ₽" /></div>
+                <div class="row2">
+                  <div class="field"><label>Текст кнопки</label><input type="text" id="s_btn" placeholder="в каталог" /></div>
+                  <div class="field"><label>Ссылка кнопки</label><input type="text" id="s_link" placeholder="#catalog" /></div>
+                </div>
+                <div class="row2">
+                  <div class="field"><label>Цвет фона</label>
+                    <select id="s_tone"><option value="t1">Бежевый</option><option value="t2">Розовый</option><option value="t3">Серый</option></select>
+                  </div>
+                  <div class="field"><label>Эмодзи (без фото)</label><input type="text" id="s_emoji" placeholder="💆‍♀️" /></div>
+                </div>
+                <div class="field">
+                  <label>Фото справа на баннере</label>
+                  <input type="hidden" id="s_image" />
+                  <div class="img-edit">
+                    <div class="img-prev" id="s_prev">нет фото</div>
+                    <div class="img-controls">
+                      <label class="btn btn-line file-btn">📁 Загрузить фото<input type="file" id="s_file" accept="image/*" hidden /></label>
+                      <button type="button" class="btn-mini" id="s_clear">Убрать фото</button>
+                    </div>
+                  </div>
+                  <input type="url" id="s_url" placeholder="или ссылка на фото https://…" />
+                </div>
+                <button class="btn btn-red full-btn" type="submit" id="slideSubmit">Добавить слайд</button>
+                <button class="btn btn-line full-btn" type="button" id="slideCancel" style="display:none;margin-top:.6rem">Отменить</button>
+              </form>
+            </div>
+            <div>
+              <div class="list-head"><h3>Слайды баннера</h3></div>
+              <div class="p-list" id="slideList"></div>
+              <div class="danger-zone"><button class="btn-danger" id="slideReset">↺ Сбросить слайдер к стандартному</button></div>
+            </div>
+          </div>
+        </div><!-- /tab-slides -->
+
+        <!-- ВКЛАДКА: КАТЕГОРИИ -->
+        <div class="tabpane" id="tab-cats" hidden>
+          <div class="list-head">
+            <h3>Плитки категорий</h3>
+            <button class="btn-danger" id="catsReset">↺ Сбросить иконки/фото</button>
+          </div>
+          <p style="color:var(--muted);font-size:.9rem;margin-bottom:1.2rem">Загрузите фото для плитки или задайте эмодзи. Изменения сразу появятся на главной.</p>
+          <div class="cat-edit-grid" id="catEditGrid"></div>
+        </div>
+
       </div>
     </main>
   </div>

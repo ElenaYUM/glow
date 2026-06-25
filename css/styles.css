@@ -178,6 +178,10 @@ section { padding: 3.6rem 0; }
 .cat-tile .emojis { margin-top: auto; align-self: flex-end; font-size: 2.6rem; line-height: 1; opacity: .92; }
 .cat-tile:nth-child(1) { grid-column: span 2; background: var(--pink-soft); }
 .cat-tile:nth-child(1) .emojis { font-size: 3.4rem; }
+.cat-tile.has-img { background-size: cover; background-position: center; color: #fff; }
+.cat-tile.has-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.5)); }
+.cat-tile.has-img b { position: relative; z-index: 1; color: #fff; }
+.cat-tile.has-img span { position: relative; z-index: 1; color: rgba(255,255,255,.85); }
 
 /* инструменты каталога */
 .cat-tools { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
