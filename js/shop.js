@@ -118,6 +118,26 @@
     $("#footCats").innerHTML = GLOW.getCategories().map((c) => `<li><a href="#catalog" data-cat="${c.key}">${c.key}</a></li>`).join("");
     $$("[data-cat]", $("#footCats")).forEach((a) => a.addEventListener("click", () => setCategory(a.dataset.cat)));
   }
+
+  /* ---------- Мобильное меню ---------- */
+  function renderMobileMenu() {
+    const nav = $("#mmNav");
+    nav.innerHTML =
+      `<a href="#sale" class="mm-link sale"><span class="e">🔥</span> Акции</a>` +
+      `<a href="#new" class="mm-link"><span class="e">✨</span> Новинки</a>` +
+      GLOW.getCategories().map((c) => `<button class="mm-link" data-cat="${c.key}"><span class="e">${c.icon}</span> ${c.key}</button>`).join("") +
+      `<a href="#brands" class="mm-link"><span class="e">🏷️</span> Бренды</a>` +
+      `<a href="#blog" class="mm-link"><span class="e">📖</span> Блог</a>` +
+      `<div class="mm-div"></div>` +
+      `<button class="mm-link" id="mmFav"><span class="e">♡</span> Избранное</button>` +
+      `<button class="mm-link" id="mmAdmin"><span class="e">👤</span> Админка</button>`;
+    $$("[data-cat]", nav).forEach((b) => b.addEventListener("click", () => { setCategory(b.dataset.cat); closeMobile(); }));
+    $$("a.mm-link", nav).forEach((a) => a.addEventListener("click", closeMobile));
+    $("#mmFav").addEventListener("click", () => { closeMobile(); $("#wishBtn").click(); });
+    $("#mmAdmin").addEventListener("click", () => { closeMobile(); openAdminModal(); });
+  }
+  function openMobile() { $("#mmOverlay").classList.add("open"); $("#mobileMenu").classList.add("open"); document.body.style.overflow = "hidden"; }
+  function closeMobile() { $("#mmOverlay").classList.remove("open"); $("#mobileMenu").classList.remove("open"); document.body.style.overflow = ""; }
   function setCategory(cat) {
     activeCategory = cat; searchQuery = ""; visible = STEP;
     $("#searchInput").value = "";
@@ -297,6 +317,11 @@
     dotEls.forEach((d) => d.addEventListener("click", () => { go(+d.dataset.s); auto(); }));
     $("#slidePrev").addEventListener("click", () => { go(idx - 1); auto(); });
     $("#slideNext").addEventListener("click", () => { go(idx + 1); auto(); });
+    // свайп на тач-устройствах
+    let sx = 0;
+    const slider = $("#slider");
+    slider.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; }, { passive: true });
+    slider.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) { go(dx < 0 ? idx + 1 : idx - 1); auto(); } }, { passive: true });
     go(0); auto();
   }
 
@@ -316,11 +341,14 @@
 
   /* ---------- Инициализация ---------- */
   function init() {
-    renderCatNav(); renderCatGrid(); renderFooterCats();
+    renderCatNav(); renderCatGrid(); renderFooterCats(); renderMobileMenu();
     renderFilters(); renderSale(); renderNew(); renderCatalog();
     updateCartCount(); updateWishCount(); initSlider(); observeReveal();
 
     $("#catalogBtn").addEventListener("click", () => $("#categories").scrollIntoView({ behavior: "smooth" }));
+    $("#burger").addEventListener("click", openMobile);
+    $("#mmClose").addEventListener("click", closeMobile);
+    $("#mmOverlay").addEventListener("click", closeMobile);
     $("#cartBtn").addEventListener("click", openCart);
     $("#closeCart").addEventListener("click", closeCart);
     $("#overlay").addEventListener("click", closeCart);
@@ -392,7 +420,7 @@
     });
     toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeCart(); closeAdminModal(); closeQuickView(); closeCheckout(); } });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeCart(); closeAdminModal(); closeQuickView(); closeCheckout(); closeMobile(); } });
   }
 
   document.addEventListener("DOMContentLoaded", init);
