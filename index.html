@@ -16,14 +16,12 @@
   <div class="topbar">
     <div class="container">
       <div class="left">
-        <a href="#about">О магазине</a>
-        <a href="#delivery">Доставка и оплата</a>
-        <a href="#blog">Блог</a>
+        <span><b>−10%</b> на первый заказ</span>
+        <span class="hide-sm">Бесплатная доставка на заказы от 1 000 ₽</span>
       </div>
       <div class="right">
-        <a href="#" title="Instagram">◎ Instagram</a>
-        <a href="#" title="Viber">✆ Viber</a>
-        <a href="tel:+78000000000" class="phone">8 800 000-00-00</a>
+        <a href="#">RU</a>
+        <a href="#">Укажите ваш город ▾</a>
       </div>
     </div>
   </div>
@@ -50,6 +48,7 @@
         <button class="act" id="cartBtn"><span class="ic">🛍️</span><span>Корзина</span>
           <span class="cart-count" id="cartCount">0</span>
         </button>
+        <button class="cat-btn" id="catalogBtn">☰ Каталог</button>
       </div>
     </div>
 
@@ -72,30 +71,33 @@
         <div class="slides" id="slides">
           <div class="slide t1">
             <div class="s-copy">
-              <span class="s-tag">Новая коллекция</span>
-              <h2>Корейский уход,<br/>которому доверяют</h2>
-              <p>Оригинальная косметика напрямую из Сеула. Подберём ритуал именно для вашей кожи.</p>
-              <a href="#catalog" class="btn btn-red">В каталог <span class="arrow">→</span></a>
+              <span class="s-prod">🧴</span>
+              <h2>GLOW</h2>
+              <span class="s-pill">full-size в подарок</span>
+              <p>при покупке от 15 000 ₽</p>
+              <a href="#catalog" class="btn btn-red">в каталог <span class="arrow">→</span></a>
             </div>
-            <div class="s-visual"><span class="motif">🧴</span></div>
+            <div class="s-visual"><span class="motif">💆‍♀️</span></div>
           </div>
           <div class="slide t2">
             <div class="s-copy">
-              <span class="s-tag">Скидки до 30%</span>
-              <h2>Сезон распродаж<br/>уже начался</h2>
-              <p>Бестселлеры COSRX, Anua и Beauty of Joseon по специальным ценам. Успейте забрать.</p>
-              <a href="#sale" class="btn btn-red">Смотреть акции <span class="arrow">→</span></a>
+              <span class="s-prod">🌸</span>
+              <h2>−30%</h2>
+              <span class="s-pill">сезон распродаж</span>
+              <p>на бестселлеры COSRX, Anua и Beauty of Joseon</p>
+              <a href="#sale" class="btn btn-red">смотреть акции <span class="arrow">→</span></a>
             </div>
-            <div class="s-visual"><span class="motif">🌸</span></div>
+            <div class="s-visual"><span class="motif">💄</span></div>
           </div>
           <div class="slide t3">
             <div class="s-copy">
-              <span class="s-tag">Наборы GLOW</span>
-              <h2>Готовый ритуал<br/>в одной коробке</h2>
-              <p>Тонер, сыворотка, крем и SPF — всё, что нужно для сияющей кожи, со скидкой до 25%.</p>
-              <a href="#catalog" class="btn btn-red">Выбрать набор <span class="arrow">→</span></a>
+              <span class="s-prod">🎁</span>
+              <h2>Наборы</h2>
+              <span class="s-pill">готовый ритуал ухода</span>
+              <p>тонер, сыворотка, крем и SPF со скидкой до 25%</p>
+              <a href="#catalog" class="btn btn-red">выбрать набор <span class="arrow">→</span></a>
             </div>
-            <div class="s-visual"><span class="motif">🎁</span></div>
+            <div class="s-visual"><span class="motif">✨</span></div>
           </div>
         </div>
         <button class="slider-arrow prev" id="slidePrev">‹</button>
@@ -105,16 +107,6 @@
       </div>
     </div>
   </section>
-
-  <!-- ДОВЕРИЕ -->
-  <div class="trust" id="delivery">
-    <div class="container">
-      <div class="t"><span class="ic">🚚</span><div><b>Доставка 2–4 дня</b><span>Бесплатно от 3 000 ₽</span></div></div>
-      <div class="t"><span class="ic">✅</span><div><b>100% оригинал</b><span>Прямые поставки из Кореи</span></div></div>
-      <div class="t"><span class="ic">🎁</span><div><b>Подарки к заказу</b><span>Сэмплы в каждой посылке</span></div></div>
-      <div class="t"><span class="ic">💳</span><div><b>Удобная оплата</b><span>Картой онлайн или при получении</span></div></div>
-    </div>
-  </div>
 
   <!-- КАТЕГОРИИ -->
   <section id="categories">
@@ -226,16 +218,23 @@
     </div>
   </section>
 
-  <!-- CTA / РАССЫЛКА -->
-  <section class="cta" id="about">
+  <!-- ПРОМО-БЛОК -->
+  <section class="promo-band" id="promo">
     <div class="container">
-      <div class="cta-inner">
-        <h2>−10% на первый заказ</h2>
-        <p>Подпишитесь на рассылку GLOW и первыми узнавайте о новинках, дропах и закрытых распродажах.</p>
-        <form class="subscribe" id="subForm">
-          <input type="email" placeholder="Ваш e-mail" required />
-          <button class="btn btn-red" type="submit">Подписаться</button>
-        </form>
+      <div class="promo-inner">
+        <div class="promo-left">
+          <h2>Дарим промокод<br/>на скидку 20%</h2>
+          <p>Укажите свою почту — и мы отправим промокод на первый заказ.</p>
+          <form class="subscribe" id="subForm">
+            <input type="email" placeholder="Введите почту" required />
+            <button class="btn btn-red" type="submit">Отправить</button>
+          </form>
+          <p class="promo-consent">Нажимая «Отправить», вы соглашаетесь на обработку персональных данных.</p>
+        </div>
+        <div class="promo-right">
+          <span class="phone">📱</span>
+          <span class="promo-pill">ВВЕДИТЕ ПРОМОКОД <b>→</b></span>
+        </div>
       </div>
     </div>
   </section>
@@ -245,39 +244,52 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <a href="index.html" class="logo">
-            <span class="logo-mark">G</span>
-            <span><span class="logo-text">GLOW</span><span class="logo-sub">korean beauty</span></span>
-          </a>
-          <p class="about">Интернет-магазин оригинальной корейской косметики. Доставляем сияние из Сеула с 2026 года.</p>
+          <span class="logo-text">GLOW</span>
+          <div class="f-contact">
+            <a href="tel:+78123456789" class="f-phone">8 812 345 67 89</a>
+            <a href="mailto:hello@glow.shop" class="f-mail">hello@glow.shop <small>служба поддержки</small></a>
+          </div>
+          <div class="legal">
+            <a href="#">Договор оферты</a>
+            <a href="#">Конфиденциальность</a>
+          </div>
           <div class="pay"><span>VISA</span><span>MC</span><span>МИР</span><span>SBP</span></div>
         </div>
         <div>
           <h5>Каталог</h5>
           <ul id="footCats"></ul>
-        </div>
-        <div>
-          <h5>Покупателям</h5>
-          <ul>
-            <li><a href="#delivery">Доставка и оплата</a></li>
-            <li><a href="#">Возврат товара</a></li>
-            <li><a href="#">Частые вопросы</a></li>
-            <li><a href="admin.html">Вход для админа</a></li>
+          <ul style="margin-top:.6rem">
+            <li><a href="#new">Новинки</a></li>
+            <li><a href="#sale" class="pink">Скидки до 50%</a></li>
           </ul>
         </div>
         <div>
-          <h5>Контакты</h5>
-          <ul class="contacts">
-            <li>📞 8 800 000-00-00</li>
-            <li>✉️ hello@glow.shop</li>
-            <li>📍 Минск, ул. Примерная, 1</li>
-            <li>🕑 Пн–Вс 10:00–21:00</li>
+          <h5>О нас</h5>
+          <ul>
+            <li><a href="#">О компании</a></li>
+            <li><a href="#blog">Блог</a></li>
+            <li><a href="#contact">Контакты</a></li>
+            <li><a href="#">Вакансии</a></li>
+            <li><a href="#sale">Акции</a></li>
+            <li><a href="#">Партнёрская программа</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Клиентам</h5>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Как заказать</a></li>
+            <li><a href="#">Оплата и доставка</a></li>
+            <li><a href="#">Возврат</a></li>
+            <li><a href="#">Программа лояльности</a></li>
+            <li><a href="#">Подарочные карты</a></li>
+            <li><a href="admin.html">Вход для админа</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <span>© 2026 GLOW. Все права защищены.</span>
-        <span>Сделано для любителей K-beauty</span>
+        <span>Korean beauty · доставка по всей стране</span>
       </div>
     </div>
   </footer>

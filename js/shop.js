@@ -31,9 +31,9 @@
     const disc = GLOW.discountPercent(p);
     const fav = GLOW.inWishlist(p.id);
     const badges = [];
-    if (p.badge === "BESTSELLER") badges.push(`<span class="tag hit">ХИТ</span>`);
-    if (p.badge === "NEW") badges.push(`<span class="tag new">NEW</span>`);
     if (disc > 0) badges.push(`<span class="tag sale">−${disc}%</span>`);
+    if (p.badge === "BESTSELLER") badges.push(`<span class="tag hit">ХИТ</span>`);
+    if (p.badge === "NEW") badges.push(`<span class="tag new">новинка</span>`);
     const priceBlock = disc > 0
       ? `<span class="price sale">${GLOW.formatPrice(p.price)}</span><span class="old-price">${GLOW.formatPrice(p.oldPrice)}</span>`
       : `<span class="price">${GLOW.formatPrice(p.price)}</span>`;
@@ -42,30 +42,28 @@
         <div class="card-media" style="background:${p.gradient}">
           <div class="badges">${badges.join("")}</div>
           <button class="wish ${fav ? "on" : ""}" data-wish="${p.id}" title="В избранное">${fav ? "♥" : "♡"}</button>
-          <span class="ico" data-view="${p.id}">${p.emoji}</span>
-          <button class="view-btn" data-view="${p.id}">Быстрый просмотр</button>
+          <span class="ico">${p.emoji}</span>
         </div>
         <div class="card-body">
-          <span class="card-brand">${p.brand}</span>
-          <h3 class="card-name" data-view="${p.id}">${p.name}</h3>
           <div class="rating"><span class="stars">${stars(p.rating)}</span><span>${p.rating.toFixed(1)}</span><span class="rev">· ${p.reviews}</span></div>
-          <div class="price-row">${priceBlock}</div>
-          <div class="card-actions">
-            <button class="add-cart" data-add="${p.id}">${out ? "Нет в наличии" : "В корзину"}</button>
-            <button class="quick" data-view="${p.id}" title="Подробнее">👁</button>
+          <span class="card-brand">${p.brand}</span>
+          <h3 class="card-name">${p.name}</h3>
+          <div class="price-row">
+            <div class="pcol">${priceBlock}</div>
+            <button class="add-round" data-add="${p.id}" title="${out ? "Нет в наличии" : "В корзину"}">${out ? "×" : "+"}</button>
           </div>
         </div>
       </article>`;
   }
 
   function bindCards(scope) {
+    $$(".card", scope).forEach((card) => card.addEventListener("click", () => openQuickView(card.dataset.id)));
     $$("[data-add]", scope).forEach((b) => b.addEventListener("click", (e) => {
       e.stopPropagation();
       const p = GLOW.getProducts().find((x) => x.id === b.dataset.add);
       if (!p || p.stock <= 0) return;
       GLOW.addToCart(p.id, 1); updateCartCount(true); toast(`«${p.name}» в корзине`);
     }));
-    $$("[data-view]", scope).forEach((b) => b.addEventListener("click", (e) => { e.stopPropagation(); openQuickView(b.dataset.view); }));
     $$("[data-wish]", scope).forEach((w) => w.addEventListener("click", (e) => {
       e.stopPropagation(); toggleWish(w.dataset.wish);
     }));
@@ -110,7 +108,9 @@
   function renderCatGrid() {
     $("#catGrid").innerHTML = GLOW.getCategories().map((c) => `
       <button class="cat-tile reveal" data-cat="${c.key}">
-        <div class="ic">${c.icon}</div><b>${c.key}</b><span>${GLOW.countByCategory(c.key)} товаров</span>
+        <b>${c.key}</b>
+        <span>${GLOW.countByCategory(c.key)} товаров</span>
+        <span class="emojis">${c.icon}</span>
       </button>`).join("");
     $$("[data-cat]", $("#catGrid")).forEach((b) => b.addEventListener("click", () => setCategory(b.dataset.cat)));
   }
@@ -320,6 +320,7 @@
     renderFilters(); renderSale(); renderNew(); renderCatalog();
     updateCartCount(); updateWishCount(); initSlider(); observeReveal();
 
+    $("#catalogBtn").addEventListener("click", () => $("#categories").scrollIntoView({ behavior: "smooth" }));
     $("#cartBtn").addEventListener("click", openCart);
     $("#closeCart").addEventListener("click", closeCart);
     $("#overlay").addEventListener("click", closeCart);
