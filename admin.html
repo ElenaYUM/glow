@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLOW — Админ-панель</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%231b1b1d'/><text x='50' y='70' font-size='54' text-anchor='middle' fill='white' font-family='Georgia'>G</text></svg>" />
+</head>
+<body>
+
+  <!-- ГЕЙТ АВТОРИЗАЦИИ -->
+  <div class="gate" id="gate" style="display:none">
+    <div class="modal">
+      <div class="lock">🔐</div>
+      <h3>Вход в админку GLOW</h3>
+      <p>Введите пароль для доступа к управлению</p>
+      <form id="gateForm">
+        <div class="field">
+          <label for="gatePass">Пароль</label>
+          <input type="password" id="gatePass" placeholder="••••••••" autocomplete="off" />
+          <div class="hint">Демо-пароль: <b>glow2026</b></div>
+        </div>
+        <div class="err" id="gateErr"></div>
+        <button class="btn btn-red full-btn" type="submit">Войти →</button>
+        <a href="index.html" class="btn btn-line full-btn" style="margin-top:.6rem">← В магазин</a>
+      </form>
+    </div>
+  </div>
+
+  <!-- ПАНЕЛЬ -->
+  <div id="app" style="display:none">
+    <header class="header admin-top">
+      <div class="container nav">
+        <a href="index.html" class="logo">
+          <span class="logo-mark">G</span>
+          <span><span class="logo-text">GLOW</span><span class="logo-sub">admin panel</span></span>
+          <span class="admin-badge">admin</span>
+        </a>
+        <div class="nav-actions">
+          <a href="index.html" class="btn-ghost">Открыть магазин ↗</a>
+          <button class="btn-ghost" id="logoutBtn">Выйти</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-wrap">
+      <div class="container">
+        <div class="admin-head">
+          <h1>Управление товарами</h1>
+          <p>Добавляйте, редактируйте и удаляйте позиции каталога — изменения сразу появятся в магазине</p>
+        </div>
+
+        <div class="stats" id="stats"></div>
+
+        <div class="admin-cols">
+          <!-- ФОРМА -->
+          <div class="panel">
+            <h3 id="formTitle">Новый товар</h3>
+            <form id="productForm">
+              <input type="hidden" id="editId" />
+              <div class="field">
+                <label>Название</label>
+                <input type="text" id="f_name" placeholder="Snail Mucin Essence" required />
+              </div>
+              <div class="row2">
+                <div class="field"><label>Бренд</label><input type="text" id="f_brand" placeholder="COSRX" required /></div>
+                <div class="field"><label>Категория</label>
+                  <select id="f_category" required></select>
+                </div>
+              </div>
+              <div class="row2">
+                <div class="field"><label>Цена, ₽</label><input type="number" id="f_price" placeholder="1690" min="0" required /></div>
+                <div class="field"><label>Старая цена, ₽</label><input type="number" id="f_oldPrice" placeholder="0 = нет скидки" min="0" /></div>
+              </div>
+              <div class="row3">
+                <div class="field"><label>Остаток</label><input type="number" id="f_stock" placeholder="20" min="0" required /></div>
+                <div class="field"><label>Рейтинг</label><input type="number" id="f_rating" placeholder="4.8" min="0" max="5" step="0.1" /></div>
+                <div class="field"><label>Отзывов</label><input type="number" id="f_reviews" placeholder="120" min="0" /></div>
+              </div>
+              <div class="field"><label>Описание</label><textarea id="f_desc" rows="2" placeholder="Краткое описание средства"></textarea></div>
+              <div class="field"><label>Бейдж</label>
+                <select id="f_badge">
+                  <option value="">Без бейджа</option>
+                  <option value="BESTSELLER">ХИТ (бестселлер)</option>
+                  <option value="NEW">NEW (новинка)</option>
+                </select>
+              </div>
+              <div class="field"><label>Иконка товара</label>
+                <input type="hidden" id="f_emoji" value="🧴" />
+                <div class="emoji-pick" id="emojiPick"></div>
+              </div>
+              <div class="field"><label>Цвет упаковки</label>
+                <input type="hidden" id="f_gradient" />
+                <div class="grad-pick" id="gradPick"></div>
+              </div>
+              <button class="btn btn-red full-btn" type="submit" id="submitBtn">Добавить товар</button>
+              <button class="btn btn-line full-btn" type="button" id="cancelEdit" style="display:none;margin-top:.6rem">Отменить редактирование</button>
+            </form>
+          </div>
+
+          <!-- СПИСОК -->
+          <div>
+            <div class="list-head">
+              <h3>Каталог</h3>
+              <input type="search" class="admin-search" id="search" placeholder="🔍 Поиск по названию или бренду…" />
+            </div>
+            <div class="p-list" id="pList"></div>
+            <div class="danger-zone">
+              <button class="btn-danger" id="resetBtn">↺ Сбросить каталог к стандартному</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="toasts" id="toasts"></div>
+
+  <script src="js/store.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLOW — корейская косметика · интернет-магазин</title>
+  <meta name="description" content="GLOW — оригинальная корейская косметика: уход за лицом, волосами, телом и декоративная косметика. Доставка по всей стране." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%231b1b1d'/><text x='50' y='70' font-size='54' text-anchor='middle' fill='white' font-family='Georgia'>G</text></svg>" />
+</head>
+<body>
+
+  <!-- СЛУЖЕБНАЯ ПОЛОСА -->
+  <div class="topbar">
+    <div class="container">
+      <div class="left">
+        <a href="#about">О магазине</a>
+        <a href="#delivery">Доставка и оплата</a>
+        <a href="#blog">Блог</a>
+      </div>
+      <div class="right">
+        <a href="#" title="Instagram">◎ Instagram</a>
+        <a href="#" title="Viber">✆ Viber</a>
+        <a href="tel:+78000000000" class="phone">8 800 000-00-00</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ШАПКА -->
+  <header class="header" id="header">
+    <div class="container header-main">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">G</span>
+        <span><span class="logo-text">GLOW</span><span class="logo-sub">korean beauty</span></span>
+      </a>
+
+      <form class="search" id="searchForm">
+        <span class="ic">🔍</span>
+        <input type="search" id="searchInput" placeholder="Поиск по товарам и брендам…" />
+        <button type="submit">Найти</button>
+      </form>
+
+      <div class="header-actions">
+        <button class="act" id="adminBtn"><span class="ic">👤</span><span>Админ</span></button>
+        <button class="act" id="wishBtn"><span class="ic">♡</span><span>Избранное</span>
+          <span class="cart-count" id="wishCount">0</span>
+        </button>
+        <button class="act" id="cartBtn"><span class="ic">🛍️</span><span>Корзина</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- НАВИГАЦИЯ ПО КАТЕГОРИЯМ -->
+    <nav class="catnav">
+      <div class="container" id="catnav">
+        <a href="#sale" class="hot">Акции</a>
+        <a href="#new">Новинки</a>
+        <!-- категории добавятся скриптом -->
+        <a href="#brands">Бренды</a>
+        <a href="#blog">Блог</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ГЕРОЙ-СЛАЙДЕР -->
+  <section class="hero">
+    <div class="container">
+      <div class="slider" id="slider">
+        <div class="slides" id="slides">
+          <div class="slide t1">
+            <div class="s-copy">
+              <span class="s-tag">Новая коллекция</span>
+              <h2>Корейский уход,<br/>которому доверяют</h2>
+              <p>Оригинальная косметика напрямую из Сеула. Подберём ритуал именно для вашей кожи.</p>
+              <a href="#catalog" class="btn btn-red">В каталог <span class="arrow">→</span></a>
+            </div>
+            <div class="s-visual"><span class="motif">🧴</span></div>
+          </div>
+          <div class="slide t2">
+            <div class="s-copy">
+              <span class="s-tag">Скидки до 30%</span>
+              <h2>Сезон распродаж<br/>уже начался</h2>
+              <p>Бестселлеры COSRX, Anua и Beauty of Joseon по специальным ценам. Успейте забрать.</p>
+              <a href="#sale" class="btn btn-red">Смотреть акции <span class="arrow">→</span></a>
+            </div>
+            <div class="s-visual"><span class="motif">🌸</span></div>
+          </div>
+          <div class="slide t3">
+            <div class="s-copy">
+              <span class="s-tag">Наборы GLOW</span>
+              <h2>Готовый ритуал<br/>в одной коробке</h2>
+              <p>Тонер, сыворотка, крем и SPF — всё, что нужно для сияющей кожи, со скидкой до 25%.</p>
+              <a href="#catalog" class="btn btn-red">Выбрать набор <span class="arrow">→</span></a>
+            </div>
+            <div class="s-visual"><span class="motif">🎁</span></div>
+          </div>
+        </div>
+        <button class="slider-arrow prev" id="slidePrev">‹</button>
+        <button class="slider-arrow next" id="slideNext">›</button>
+        <div class="slider-dots" id="slideDots"></div>
+        <div class="slider-bar"><i id="slideBar"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ДОВЕРИЕ -->
+  <div class="trust" id="delivery">
+    <div class="container">
+      <div class="t"><span class="ic">🚚</span><div><b>Доставка 2–4 дня</b><span>Бесплатно от 3 000 ₽</span></div></div>
+      <div class="t"><span class="ic">✅</span><div><b>100% оригинал</b><span>Прямые поставки из Кореи</span></div></div>
+      <div class="t"><span class="ic">🎁</span><div><b>Подарки к заказу</b><span>Сэмплы в каждой посылке</span></div></div>
+      <div class="t"><span class="ic">💳</span><div><b>Удобная оплата</b><span>Картой онлайн или при получении</span></div></div>
+    </div>
+  </div>
+
+  <!-- КАТЕГОРИИ -->
+  <section id="categories">
+    <div class="container">
+      <div class="sec-head"><h2>Категории</h2></div>
+      <div class="cat-grid" id="catGrid"></div>
+    </div>
+  </section>
+
+  <!-- АКЦИИ -->
+  <section id="sale" style="background:var(--bg-soft-2)">
+    <div class="container">
+      <div class="sec-head">
+        <h2><span class="em">🔥</span> Акции</h2>
+        <a href="#catalog" class="link">Весь каталог →</a>
+      </div>
+      <div class="products" id="saleGrid"></div>
+    </div>
+  </section>
+
+  <!-- НОВИНКИ -->
+  <section id="new">
+    <div class="container">
+      <div class="sec-head">
+        <h2>Новинки</h2>
+        <a href="#catalog" class="link">Весь каталог →</a>
+      </div>
+      <div class="products" id="newGrid"></div>
+    </div>
+  </section>
+
+  <!-- КАТАЛОГ -->
+  <section id="catalog" style="background:var(--bg-soft)">
+    <div class="container">
+      <div class="sec-head">
+        <h2>Каталог</h2>
+        <div class="cat-tools">
+          <span id="catCount" class="count-lbl"></span>
+          <select id="sortSelect" class="sort-select" aria-label="Сортировка">
+            <option value="popular">Сначала популярные</option>
+            <option value="cheap">Сначала дешёвые</option>
+            <option value="expensive">Сначала дорогие</option>
+            <option value="rating">По рейтингу</option>
+            <option value="discount">По размеру скидки</option>
+            <option value="new">Сначала новинки</option>
+          </select>
+        </div>
+      </div>
+      <div class="filters" id="filters"></div>
+      <div class="products" id="products"></div>
+      <div class="load-more-wrap"><button class="btn btn-line" id="loadMore">Показать ещё</button></div>
+    </div>
+  </section>
+
+  <!-- БРЕНДЫ -->
+  <section class="brands" id="brands">
+    <div class="container">
+      <div class="sec-head" style="justify-content:center"><h2>Наши бренды</h2></div>
+      <div class="brand-row">
+        <span>COSRX</span><span>Beauty of Joseon</span><span>Laneige</span><span>Anua</span>
+        <span>Some By Mi</span><span>Innisfree</span><span>Round Lab</span><span>Torriden</span>
+        <span>Medicube</span><span>rom&amp;nd</span><span>Illiyoon</span><span>Mise en Scene</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ОТЗЫВЫ -->
+  <section id="reviews">
+    <div class="container">
+      <div class="sec-head"><h2>Отзывы покупателей</h2><span class="link">⭐ 4.9 из 5 · 1 200+ отзывов</span></div>
+      <div class="reviews-grid">
+        <div class="review">
+          <div class="stars">★★★★★</div>
+          <p>«Заказываю уже третий раз. Всё оригинал, упаковано идеально, доставка быстрая. Кожа реально стала лучше с эссенцией COSRX!»</p>
+          <div class="who"><div class="av">🙋‍♀️</div><div><b>Алина К.</b><span>Минск</span></div></div>
+        </div>
+        <div class="review">
+          <div class="stars">★★★★★</div>
+          <p>«Влюбилась в тонер Anua. Менеджер помог подобрать уход под мою чувствительную кожу. Сервис на высоте, рекомендую!»</p>
+          <div class="who"><div class="av">👩</div><div><b>Дарья М.</b><span>Гомель</span></div></div>
+        </div>
+        <div class="review">
+          <div class="stars">★★★★★</div>
+          <p>«Брала набор в подарок сестре — она в восторге. Красивая упаковка, приятные сэмплы в комплекте. Спасибо GLOW!»</p>
+          <div class="who"><div class="av">🧑</div><div><b>Ольга В.</b><span>Брест</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- БЛОГ -->
+  <section id="blog" style="background:var(--bg-soft)">
+    <div class="container">
+      <div class="sec-head"><h2>Из блога</h2><a href="#" class="link">Все статьи →</a></div>
+      <div class="blog-grid">
+        <article class="post">
+          <div class="cover t1" style="background:linear-gradient(120deg,#fdeef0,#f8dfe3)">📖</div>
+          <div class="pb"><span class="date">12 июня 2026</span><h4>Корейский уход за кожей: 10 шагов простым языком</h4><p>Разбираем, что и в каком порядке наносить, чтобы кожа сияла.</p></div>
+        </article>
+        <article class="post">
+          <div class="cover t2" style="background:linear-gradient(120deg,#f3f0ec,#e9e2d6)">🧪</div>
+          <div class="pb"><span class="date">5 июня 2026</span><h4>Муцин улитки: чем полезен и кому подойдёт</h4><p>Главный ингредиент K-beauty и как его правильно использовать.</p></div>
+        </article>
+        <article class="post">
+          <div class="cover t3" style="background:linear-gradient(120deg,#eef1f3,#dfe7ea)">☀️</div>
+          <div class="pb"><span class="date">28 мая 2026</span><h4>SPF каждый день: выбираем санскрин без белёсости</h4><p>Сравниваем популярные корейские солнцезащитные средства.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / РАССЫЛКА -->
+  <section class="cta" id="about">
+    <div class="container">
+      <div class="cta-inner">
+        <h2>−10% на первый заказ</h2>
+        <p>Подпишитесь на рассылку GLOW и первыми узнавайте о новинках, дропах и закрытых распродажах.</p>
+        <form class="subscribe" id="subForm">
+          <input type="email" placeholder="Ваш e-mail" required />
+          <button class="btn btn-red" type="submit">Подписаться</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПОДВАЛ -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="logo">
+            <span class="logo-mark">G</span>
+            <span><span class="logo-text">GLOW</span><span class="logo-sub">korean beauty</span></span>
+          </a>
+          <p class="about">Интернет-магазин оригинальной корейской косметики. Доставляем сияние из Сеула с 2026 года.</p>
+          <div class="pay"><span>VISA</span><span>MC</span><span>МИР</span><span>SBP</span></div>
+        </div>
+        <div>
+          <h5>Каталог</h5>
+          <ul id="footCats"></ul>
+        </div>
+        <div>
+          <h5>Покупателям</h5>
+          <ul>
+            <li><a href="#delivery">Доставка и оплата</a></li>
+            <li><a href="#">Возврат товара</a></li>
+            <li><a href="#">Частые вопросы</a></li>
+            <li><a href="admin.html">Вход для админа</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Контакты</h5>
+          <ul class="contacts">
+            <li>📞 8 800 000-00-00</li>
+            <li>✉️ hello@glow.shop</li>
+            <li>📍 Минск, ул. Примерная, 1</li>
+            <li>🕑 Пн–Вс 10:00–21:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 GLOW. Все права защищены.</span>
+        <span>Сделано для любителей K-beauty</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- КОРЗИНА -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer" id="drawer" aria-label="Корзина">
+    <div class="drawer-head">
+      <h3>Корзина</h3>
+      <button class="close-btn" id="closeCart">✕</button>
+    </div>
+    <div class="drawer-body" id="cartBody"></div>
+    <div class="drawer-foot" id="cartFoot" style="display:none">
+      <div class="sum-row"><span>Товаров</span><span id="sumCount">0</span></div>
+      <div class="sum-row save" id="saveRow" style="display:none"><span>Ваша выгода</span><span id="sumSave">0 ₽</span></div>
+      <div class="sum-row"><span>Доставка</span><span id="sumShip">Бесплатно</span></div>
+      <div class="sum-row total"><span>Итого</span><span id="sumTotal">0 ₽</span></div>
+      <button class="btn btn-red checkout-btn" id="checkoutBtn">Оформить заказ <span class="arrow">→</span></button>
+    </div>
+  </aside>
+
+  <!-- МОДАЛКА ВХОДА В АДМИНКУ -->
+  <div class="modal-wrap" id="adminModal">
+    <div class="modal">
+      <div class="lock">🔐</div>
+      <h3>Вход в админку</h3>
+      <p>Введите пароль, чтобы управлять товарами</p>
+      <form id="adminForm">
+        <div class="field">
+          <label for="adminPass">Пароль</label>
+          <input type="password" id="adminPass" placeholder="••••••••" autocomplete="off" />
+          <div class="hint">Демо-пароль: <b>glow2026</b></div>
+        </div>
+        <div class="err" id="adminErr"></div>
+        <button class="btn btn-red checkout-btn" type="submit">Войти →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- БЫСТРЫЙ ПРОСМОТР -->
+  <div class="modal-wrap qv-wrap" id="quickModal">
+    <div class="modal-card qv"></div>
+  </div>
+
+  <!-- ОФОРМЛЕНИЕ ЗАКАЗА -->
+  <div class="modal-wrap" id="checkoutModal">
+    <div class="modal-card checkout">
+      <div class="co-head">
+        <h3>Оформление заказа</h3>
+        <button class="close-btn" id="coClose">✕</button>
+      </div>
+      <form id="coForm" class="co-body">
+        <div class="co-grid">
+          <div class="co-fields">
+            <div class="row2">
+              <div class="field"><label>Имя и фамилия</label><input type="text" id="coName" required placeholder="Елена Иванова" /></div>
+              <div class="field"><label>Телефон</label><input type="tel" id="coPhone" required placeholder="+7 900 000-00-00" /></div>
+            </div>
+            <div class="row2">
+              <div class="field"><label>Город</label><input type="text" id="coCity" required placeholder="Москва" /></div>
+              <div class="field"><label>Способ доставки</label>
+                <select id="coDelivery">
+                  <option>Курьер до двери</option>
+                  <option>Пункт выдачи</option>
+                  <option>Почта</option>
+                </select>
+              </div>
+            </div>
+            <div class="field"><label>Адрес</label><input type="text" id="coAddress" required placeholder="ул. Примерная, д. 1, кв. 1" /></div>
+            <div class="field"><label>Комментарий к заказу</label><textarea id="coComment" rows="2" placeholder="Необязательно"></textarea></div>
+            <div class="field promo-field">
+              <label>Промокод</label>
+              <div class="promo-row">
+                <input type="text" id="promoInput" placeholder="Напр. GLOW10" />
+                <button type="button" class="btn btn-line" id="promoApply">Применить</button>
+              </div>
+              <div class="promo-msg" id="promoMsg"></div>
+              <div class="hint">Доступно: GLOW10 (−10%), SEOUL15 (−15%), BEAUTY (−5%)</div>
+            </div>
+          </div>
+          <aside class="co-aside">
+            <h4>Ваш заказ</h4>
+            <div id="coSummary"></div>
+            <button class="btn btn-red checkout-btn" type="submit">Подтвердить заказ</button>
+            <p class="co-note">🔒 Это демо: оплата не списывается, данные не отправляются.</p>
+          </aside>
+        </div>
+      </form>
+      <div class="order-success" id="orderSuccess" style="display:none">
+        <div class="os-ic">✅</div>
+        <h3>Спасибо за заказ!</h3>
+        <p>Номер заказа <b id="orderNum"></b> на сумму <b id="orderTotal"></b>.<br/>Менеджер свяжется с вами для подтверждения.</p>
+        <button class="btn btn-red" onclick="document.getElementById('checkoutModal').classList.remove('open');document.body.style.overflow=''">Отлично!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- КНОПКА НАВЕРХ -->
+  <button class="to-top" id="toTop" title="Наверх">↑</button>
+
+  <div class="toasts" id="toasts"></div>
+
+  <script src="js/store.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>
