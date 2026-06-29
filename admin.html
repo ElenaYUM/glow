@@ -22,7 +22,6 @@
         <div class="field">
           <label for="gatePass">Пароль</label>
           <input type="password" id="gatePass" placeholder="••••••••" autocomplete="off" />
-          <div class="hint">Демо-пароль: <b>glow2026</b></div>
         </div>
         <div class="err" id="gateErr"></div>
         <button class="btn btn-red full-btn" type="submit">Войти →</button>
@@ -55,8 +54,11 @@
 
         <div class="admin-tabs">
           <button class="atab active" data-tab="products">🛍️ Товары</button>
-          <button class="atab" data-tab="slides">🎞️ Слайдер</button>
           <button class="atab" data-tab="cats">🧱 Категории</button>
+          <button class="atab" data-tab="slides">🎞️ Слайдер</button>
+          <button class="atab" data-tab="reviews">💬 Отзывы</button>
+          <button class="atab" data-tab="blog">📝 Блог</button>
+          <button class="atab" data-tab="conn">🔗 Подключение</button>
         </div>
 
         <!-- ВКЛАДКА: ТОВАРЫ -->
@@ -78,6 +80,9 @@
                 <div class="field"><label>Категория</label>
                   <select id="f_category" required></select>
                 </div>
+              </div>
+              <div class="field"><label>Подкатегория</label>
+                <select id="f_subcategory"></select>
               </div>
               <div class="row2">
                 <div class="field"><label>Цена, ₽</label><input type="number" id="f_price" placeholder="1690" min="0" required /></div>
@@ -170,12 +175,126 @@
         <!-- ВКЛАДКА: КАТЕГОРИИ -->
         <div class="tabpane" id="tab-cats" hidden>
           <div class="list-head">
-            <h3>Плитки категорий</h3>
-            <button class="btn-danger" id="catsReset">↺ Сбросить иконки/фото</button>
+            <h3>Категории и подкатегории</h3>
+            <button class="btn-danger" id="catsReset">↺ Сбросить к стандартным</button>
           </div>
-          <p style="color:var(--muted);font-size:.9rem;margin-bottom:1.2rem">Загрузите фото для плитки или задайте эмодзи. Изменения сразу появятся на главной.</p>
+          <p style="color:var(--muted);font-size:.9rem;margin-bottom:1.2rem">Переименовывайте категории, добавляйте подкатегории, меняйте иконку или фото плитки. Всё сразу появится в магазине.</p>
+
+          <form class="add-cat-bar" id="addCatForm">
+            <input type="text" id="newCatName" placeholder="Название новой категории, напр. «Парфюмерия»" required />
+            <input type="text" id="newCatIcon" class="icon-in" placeholder="🏷️" maxlength="4" />
+            <button class="btn btn-red" type="submit">+ Добавить категорию</button>
+          </form>
+
           <div class="cat-edit-grid" id="catEditGrid"></div>
-        </div>
+        </div><!-- /tab-cats -->
+
+        <!-- ВКЛАДКА: ОТЗЫВЫ -->
+        <div class="tabpane" id="tab-reviews" hidden>
+          <div class="admin-cols">
+            <div class="panel">
+              <h3>Добавить отзыв вручную</h3>
+              <form id="adminReviewForm">
+                <div class="row2">
+                  <div class="field"><label>Имя</label><input type="text" id="ar_name" placeholder="Имя покупателя" required /></div>
+                  <div class="field"><label>Город</label><input type="text" id="ar_city" placeholder="Минск" /></div>
+                </div>
+                <div class="field"><label>Оценка (1–5)</label><input type="number" id="ar_rating" min="1" max="5" step="1" value="5" /></div>
+                <div class="field"><label>Текст отзыва</label><textarea id="ar_text" rows="4" placeholder="Текст отзыва" required></textarea></div>
+                <button class="btn btn-red full-btn" type="submit">Опубликовать отзыв</button>
+              </form>
+            </div>
+            <div>
+              <div class="list-head"><h3>Все отзывы</h3></div>
+              <div class="p-list" id="reviewList"></div>
+              <div class="danger-zone"><button class="btn-danger" id="reviewsReset">↺ Сбросить отзывы к стандартным</button></div>
+            </div>
+          </div>
+        </div><!-- /tab-reviews -->
+
+        <!-- ВКЛАДКА: БЛОГ -->
+        <div class="tabpane" id="tab-blog" hidden>
+          <div class="admin-cols">
+            <div class="panel">
+              <h3 id="postFormTitle">Новая статья</h3>
+              <form id="postForm">
+                <input type="hidden" id="b_id" />
+                <div class="field"><label>Заголовок</label><input type="text" id="b_title" placeholder="Корейский уход за кожей…" required /></div>
+                <div class="row2">
+                  <div class="field"><label>Дата</label><input type="text" id="b_date" placeholder="12 июня 2026" /></div>
+                  <div class="field"><label>Иконка (если без фото)</label><input type="text" id="b_emoji" placeholder="📝" maxlength="4" /></div>
+                </div>
+                <div class="field"><label>Краткое описание (для карточки)</label><textarea id="b_excerpt" rows="2" placeholder="Одно-два предложения для превью"></textarea></div>
+                <div class="field"><label>Текст статьи</label><textarea id="b_body" rows="7" placeholder="Полный текст статьи. Пустая строка — новый абзац."></textarea></div>
+                <div class="field"><label>Цвет обложки</label>
+                  <input type="hidden" id="b_cover" />
+                  <div class="grad-pick" id="coverPick"></div>
+                </div>
+                <div class="field">
+                  <label>Фото обложки (необязательно)</label>
+                  <input type="hidden" id="b_image" />
+                  <div class="img-edit">
+                    <div class="img-prev" id="b_prev">нет фото</div>
+                    <div class="img-controls">
+                      <label class="btn btn-line file-btn">📁 Загрузить фото<input type="file" id="b_file" accept="image/*" hidden /></label>
+                      <button type="button" class="btn-mini" id="b_clear">Убрать фото</button>
+                    </div>
+                  </div>
+                  <input type="url" id="b_url" placeholder="или ссылка на фото https://…" />
+                </div>
+                <button class="btn btn-red full-btn" type="submit" id="postSubmit">Добавить статью</button>
+                <button class="btn btn-line full-btn" type="button" id="postCancel" style="display:none;margin-top:.6rem">Отменить</button>
+              </form>
+            </div>
+            <div>
+              <div class="list-head"><h3>Статьи блога</h3></div>
+              <div class="p-list" id="postList"></div>
+              <div class="danger-zone"><button class="btn-danger" id="blogReset">↺ Сбросить блог к стандартному</button></div>
+            </div>
+          </div>
+        </div><!-- /tab-blog -->
+
+        <!-- ВКЛАДКА: ПОДКЛЮЧЕНИЕ К GITHUB -->
+        <div class="tabpane" id="tab-conn" hidden>
+          <div class="admin-cols">
+            <div class="panel">
+              <h3>Подключение к GitHub</h3>
+              <div class="conn-status" id="connStatus">Проверяю…</div>
+              <form id="connForm">
+                <div class="row2">
+                  <div class="field"><label>Владелец репозитория</label><input type="text" id="gh_owner" placeholder="ElenaYUM" /></div>
+                  <div class="field"><label>Репозиторий</label><input type="text" id="gh_repo" placeholder="glow" /></div>
+                </div>
+                <div class="field"><label>Ветка</label><input type="text" id="gh_branch" placeholder="main" /></div>
+                <div class="field">
+                  <label>Токен доступа (Personal Access Token)</label>
+                  <input type="password" id="gh_token" placeholder="github_pat_…  или  ghp_…" autocomplete="off" />
+                  <div class="hint">Хранится только в этом браузере и никогда не публикуется на сайте.</div>
+                </div>
+                <button class="btn btn-red full-btn" type="submit">💾 Сохранить и проверить</button>
+              </form>
+              <div class="conn-actions">
+                <button class="btn btn-line full-btn" type="button" id="pullBtn">⬇️ Загрузить данные с GitHub</button>
+                <button class="btn btn-line full-btn" type="button" id="pushAllBtn" style="margin-top:.6rem">⬆️ Выгрузить ВСЕ данные в GitHub</button>
+              </div>
+            </div>
+            <div>
+              <div class="list-head"><h3>Как получить токен</h3></div>
+              <div class="conn-help">
+                <ol>
+                  <li>Откройте <b>github.com</b> → ваш профиль → <b>Settings</b>.</li>
+                  <li>Внизу слева: <b>Developer settings</b> → <b>Personal access tokens</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b>.</li>
+                  <li><b>Repository access</b> → <b>Only select repositories</b> → выберите репозиторий магазина (<b>glow</b>).</li>
+                  <li><b>Permissions</b> → <b>Repository permissions</b> → <b>Contents</b> → выберите <b>Read and write</b>.</li>
+                  <li>Нажмите <b>Generate token</b>, скопируйте строку токена и вставьте её в поле слева.</li>
+                  <li>Нажмите <b>«Сохранить и проверить»</b> — должно появиться «Подключено ✓».</li>
+                </ol>
+                <p class="conn-note">Токен — это как пароль для записи в репозиторий. Никому его не показывайте. Если потеряли — просто создайте новый, старый удалите на GitHub.</p>
+                <p class="conn-note">Первый раз нажмите <b>«⬆️ Выгрузить ВСЕ данные в GitHub»</b> — это создаст файлы данных в репозитории. Дальше всё сохраняется автоматически при каждом изменении.</p>
+              </div>
+            </div>
+          </div>
+        </div><!-- /tab-conn -->
 
       </div>
     </main>

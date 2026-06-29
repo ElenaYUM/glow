@@ -94,8 +94,15 @@
 /* список слайдов */
 .slide-row .pic { background: var(--bg-soft) center/cover no-repeat; }
 
+/* добавление категории */
+.add-cat-bar { display: flex; gap: .6rem; margin-bottom: 1.6rem; flex-wrap: wrap; }
+.add-cat-bar input { padding: .8rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--line-2); font-family: inherit; font-size: .95rem; outline: none; transition: border-color .2s; }
+.add-cat-bar input:focus { border-color: var(--red); }
+.add-cat-bar input:first-child { flex: 1; min-width: 220px; }
+.add-cat-bar .icon-in { width: 80px; text-align: center; }
+
 /* редактор категорий */
-.cat-edit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.cat-edit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; align-items: start; }
 .cat-edit-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.2rem; }
 .cat-edit-card .cc-prev { width: 100%; height: 110px; border-radius: var(--radius-sm); background: var(--bg-soft) center/cover no-repeat;
   display: grid; place-items: center; font-size: 2.6rem; margin-bottom: .8rem; overflow: hidden; }
@@ -103,6 +110,36 @@
 .cat-edit-card .field { margin-bottom: .7rem; }
 .cat-edit-card .cc-actions { display: flex; gap: .5rem; align-items: center; }
 .cat-edit-card .file-btn { flex: 1; text-align: center; }
+.cc-name-row { display: flex; gap: .4rem; align-items: center; }
+.cc-name-row .cc-name { flex: 1; }
+.cc-rename, .add-sub-btn { flex: none; white-space: nowrap; align-self: center; padding: .2rem .4rem; }
+
+/* подкатегории внутри карточки */
+.subs-block { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--line-2); }
+.subs-block > label { font-size: .8rem; font-weight: 600; display: block; margin-bottom: .5rem; }
+.subs-list { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .6rem; }
+.sub-row { display: flex; gap: .35rem; align-items: center; }
+.sub-row .sub-name { flex: 1; padding: .5rem .7rem; border-radius: var(--radius-sm); border: 1px solid var(--line-2); font-family: inherit; font-size: .85rem; outline: none; }
+.sub-row .sub-name:focus { border-color: var(--red); }
+.sub-row button { flex: none; width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--bg-soft); font-size: .82rem; transition: .2s; }
+.sub-row .sub-rename:hover { background: var(--red-soft); border-color: var(--red); }
+.sub-row .sub-del:hover { background: #ffe3e3; border-color: #ffbcbc; }
+.subs-empty { font-size: .8rem; color: var(--muted); padding: .2rem 0 .4rem; }
+.add-sub-row { display: flex; gap: .35rem; }
+.add-sub-row .new-sub { flex: 1; padding: .5rem .7rem; border-radius: var(--radius-sm); border: 1px solid var(--line-2); font-family: inherit; font-size: .85rem; outline: none; }
+.add-sub-row .new-sub:focus { border-color: var(--red); }
+.add-sub-btn { flex: none; white-space: nowrap; }
+
+/* подключение к GitHub */
+.conn-status { font-size: .88rem; font-weight: 600; padding: .7rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.2rem; border: 1px solid var(--line); background: var(--bg-soft); color: var(--ink-2); }
+.conn-status.on { background: #e7f7ec; border-color: #b6e6c5; color: #1c7a3e; }
+.conn-status.off { background: #fff4e5; border-color: #ffd8a8; color: #9a5b00; }
+.conn-status.checking { background: var(--bg-soft); color: var(--muted); }
+.conn-actions { margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px dashed var(--line-2); }
+.conn-help { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem 1.6rem; }
+.conn-help ol { padding-left: 1.2rem; display: flex; flex-direction: column; gap: .55rem; }
+.conn-help li { font-size: .9rem; color: var(--ink-2); line-height: 1.5; }
+.conn-help .conn-note { font-size: .82rem; color: var(--muted); margin-top: 1rem; line-height: 1.5; padding: .7rem .9rem; background: var(--bg-soft); border-radius: var(--radius-sm); }
 
 @media (max-width: 880px) { .stats { grid-template-columns: repeat(2,1fr); } .admin-cols { grid-template-columns: 1fr; } .panel { position: static; } .cat-edit-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .cat-edit-grid { grid-template-columns: 1fr; } }

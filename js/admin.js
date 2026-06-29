@@ -7,6 +7,14 @@
 
   const EMOJIS = ["🧴","💧","✦","🌾","🍃","🍵","☀","💄","🎨","🎁","🎟️","💇","🧼","🛁","◍","❑","❖","🐌","🌸","💗"];
   const GRADS = Object.values(GLOW.TONES);
+  const BLOG_COVERS = [
+    "linear-gradient(120deg,#fdeef0,#f8dfe3)",
+    "linear-gradient(120deg,#f3f0ec,#e9e2d6)",
+    "linear-gradient(120deg,#eef1f3,#dfe7ea)",
+    "linear-gradient(120deg,#eef1ec,#dee5db)",
+    "linear-gradient(120deg,#f0e8e3,#e2d6cd)",
+    "linear-gradient(120deg,#f0f0f1,#e3e4e6)",
+  ];
 
   function toast(msg) {
     const el = document.createElement("div");
@@ -18,7 +26,33 @@
 
   /* ---------- Гейт ---------- */
   function showGate() { $("#gate").style.display = "grid"; $("#app").style.display = "none"; setTimeout(() => $("#gatePass").focus(), 150); }
-  function showApp() { $("#gate").style.display = "none"; $("#app").style.display = "block"; renderAll(); }
+  async function showApp() {
+    $("#gate").style.display = "none"; $("#app").style.display = "block";
+    renderAllTabs();                         // мгновенно из локального кэша
+    renderConnStatus();
+    if (GLOW.hasToken() || true) {           // подтянуть свежие данные из GitHub
+      await GLOW.boot();
+      renderAllTabs();
+    }
+  }
+  function renderAllTabs() {
+    renderAll();
+    if ($("#slideList")) renderSlideList();
+    if ($("#catEditGrid")) renderCatEdit();
+    if ($("#reviewList")) renderReviewList();
+    if ($("#postList")) renderPostList();
+  }
+
+  /* ---------- Сохранение в GitHub ---------- */
+  async function pushNow(datasets, label) {
+    if (!GLOW.hasToken()) {
+      toast("⚠️ Сохранено только на этом устройстве. Подключите GitHub во вкладке «🔗 Подключение».");
+      return false;
+    }
+    toast("Сохранение в GitHub…");
+    try { await GLOW.ghPushMany(datasets, label); toast("Сохранено в GitHub ✓"); return true; }
+    catch (e) { toast("GitHub: " + e.message); return false; }
+  }
 
   /* ---------- Статистика ---------- */
   function renderStats() {
@@ -36,8 +70,20 @@
   }
 
   /* ---------- Категории в select ---------- */
-  function renderCatSelect() {
-    $("#f_category").innerHTML = GLOW.getCategories().map((c) => `<option value="${c.key}">${c.key}</option>`).join("");
+  function renderCatSelect(keepCat, keepSub) {
+    const cats = GLOW.getCategories();
+    const sel = $("#f_category");
+    const current = keepCat || sel.value || (cats[0] && cats[0].key);
+    sel.innerHTML = cats.map((c) => `<option value="${c.key}">${c.key}</option>`).join("");
+    if (current && cats.some((c) => c.key === current)) sel.value = current;
+    renderSubSelect(sel.value, keepSub);
+  }
+  function renderSubSelect(catName, keepSub) {
+    const sub = $("#f_subcategory");
+    if (!sub) return;
+    const subs = GLOW.getSubcategories(catName);
+    sub.innerHTML = `<option value="">— без подкатегории —</option>` + subs.map((s) => `<option value="${s}">${s}</option>`).join("");
+    if (keepSub && subs.includes(keepSub)) sub.value = keepSub;
   }
 
   /* ---------- Палитры ---------- */
@@ -74,13 +120,14 @@
     list.innerHTML = products.map((p) => {
       const old = p.oldPrice > p.price ? `<span class="old">${GLOW.formatPrice(p.oldPrice)}</span>` : "";
       const badge = p.badge === "BESTSELLER" ? " · ХИТ" : p.badge === "NEW" ? " · NEW" : "";
+      const sub = p.subcategory ? ` › ${p.subcategory}` : "";
       return `
       <div class="p-row" data-id="${p.id}">
         <div class="pic" style="background:${p.gradient}">${p.emoji}</div>
         <div class="nm">
           <b>${p.name}</b>
           <span>${p.brand}</span>
-          <small>${p.category}${badge} · <span class="star">★</span> ${p.rating.toFixed(1)} (${p.reviews})</small>
+          <small>${p.category}${sub}${badge} · <span class="star">★</span> ${p.rating.toFixed(1)} (${p.reviews})</small>
         </div>
         <div class="pp"><b>${GLOW.formatPrice(p.price)}</b>${old}<small>${p.stock > 0 ? p.stock + " шт" : "нет в наличии"}</small></div>
         <div class="acts">
@@ -92,7 +139,7 @@
     $$("[data-edit]", list).forEach((b) => b.addEventListener("click", () => startEdit(b.dataset.edit)));
     $$("[data-del]", list).forEach((b) => b.addEventListener("click", () => {
       const p = GLOW.getProducts().find((x) => x.id === b.dataset.del);
-      if (confirm(`Удалить «${p.name}»?`)) { GLOW.deleteProduct(b.dataset.del); renderAll(); toast("Товар удалён"); }
+      if (confirm(`Удалить «${p.name}»?`)) { GLOW.deleteProduct(b.dataset.del); renderAll(); toast("Товар удалён"); pushNow(["products"], "GLOW: удалён товар"); }
     }));
   }
 
@@ -103,7 +150,9 @@
     $("#editId").value = p.id;
     $("#f_name").value = p.name;
     $("#f_brand").value = p.brand;
+    renderCatSelect(p.category, p.subcategory);
     $("#f_category").value = p.category;
+    renderSubSelect(p.category, p.subcategory);
     $("#f_price").value = p.price;
     $("#f_oldPrice").value = p.oldPrice || "";
     $("#f_stock").value = p.stock;
@@ -121,6 +170,7 @@
     $("#productForm").reset();
     $("#editId").value = "";
     renderCatSelect();
+    renderSubSelect($("#f_category").value);
     selectPicker(EMOJIS[0], GRADS[0]);
     $("#formTitle").textContent = "Новый товар";
     $("#submitBtn").textContent = "Добавить товар";
@@ -180,7 +230,7 @@
       </div>`).join("");
     $$("[data-edit]", list).forEach((b) => b.addEventListener("click", () => editSlide(b.dataset.edit)));
     $$("[data-del]", list).forEach((b) => b.addEventListener("click", () => {
-      if (confirm("Удалить слайд?")) { GLOW.deleteSlide(b.dataset.del); renderSlideList(); toast("Слайд удалён"); }
+      if (confirm("Удалить слайд?")) { GLOW.deleteSlide(b.dataset.del); renderSlideList(); toast("Слайд удалён"); pushNow(["slides"], "GLOW: слайдер"); }
     }));
   }
   function editSlide(id) {
@@ -219,47 +269,283 @@
         else { GLOW.addSlide(data); toast("Слайд добавлен 🎉"); }
       } catch (err) { toast("Не удалось сохранить — фото слишком большое"); return; }
       resetSlideForm(); renderSlideList();
+      pushNow(["slides"], "GLOW: слайдер");
     });
     $("#slideCancel").addEventListener("click", resetSlideForm);
-    $("#slideReset").addEventListener("click", () => { if (confirm("Сбросить слайдер к стандартному?")) { GLOW.resetSlides(); renderSlideList(); resetSlideForm(); toast("Слайдер сброшен"); } });
+    $("#slideReset").addEventListener("click", () => { if (confirm("Сбросить слайдер к стандартному?")) { GLOW.resetSlides(); renderSlideList(); resetSlideForm(); toast("Слайдер сброшен"); pushNow(["slides"], "GLOW: сброс слайдера"); } });
   }
 
-  /* ---------- Категории ---------- */
+  /* ---------- Категории и подкатегории ---------- */
   function renderCatEdit() {
     const grid = $("#catEditGrid");
     grid.innerHTML = GLOW.getCategories().map((c) => `
-      <div class="cat-edit-card" data-key="${c.key}">
+      <div class="cat-edit-card" data-id="${c.id}" data-key="${c.key}">
         <div class="cc-prev" ${c.image ? `style="background-image:url('${c.image}')"` : ""}>${c.image ? "" : c.icon}</div>
-        <h4>${c.key}</h4>
+        <div class="field"><label>Название категории</label>
+          <div class="cc-name-row">
+            <input type="text" class="cc-name" value="${c.key}" />
+            <button class="btn-mini cc-rename" type="button">Переименовать</button>
+          </div>
+        </div>
         <div class="field"><label>Эмодзи (если без фото)</label><input type="text" class="cc-emoji" value="${c.image ? "" : c.icon}" placeholder="🧴" /></div>
         <input type="hidden" class="cc-image" value="${c.image || ""}" />
         <input type="url" class="cc-url" placeholder="ссылка на фото https://…" style="margin-bottom:.6rem" />
         <div class="cc-actions">
           <label class="btn btn-line file-btn">📁 Фото<input type="file" class="cc-file" accept="image/*" hidden /></label>
-          <button class="btn btn-red cc-save" type="button">Сохранить</button>
+          <button class="btn btn-red cc-save" type="button">Сохранить вид</button>
         </div>
         <button class="btn-mini cc-clear" type="button" style="margin-top:.5rem">Убрать фото</button>
+
+        <div class="subs-block">
+          <label>Подкатегории</label>
+          <div class="subs-list">
+            ${c.subs.length ? c.subs.map((s) => `
+              <div class="sub-row" data-sub="${s}">
+                <input type="text" class="sub-name" value="${s}" />
+                <button class="sub-rename" type="button" title="Переименовать">✏️</button>
+                <button class="sub-del" type="button" title="Удалить">🗑</button>
+              </div>`).join("") : `<div class="subs-empty">пока нет подкатегорий</div>`}
+          </div>
+          <form class="add-sub-row">
+            <input type="text" class="new-sub" placeholder="Новая подкатегория" />
+            <button class="btn-mini add-sub-btn" type="submit">+ Добавить</button>
+          </form>
+        </div>
+
+        <button class="btn-danger cc-delete" type="button" style="margin-top:1rem;width:100%">Удалить категорию</button>
       </div>`).join("");
+
     $$(".cat-edit-card", grid).forEach((card) => {
-      const key = card.dataset.key;
+      const id = card.dataset.id, key = card.dataset.key;
       const prev = $(".cc-prev", card), imageInput = $(".cc-image", card), emojiInput = $(".cc-emoji", card), urlInput = $(".cc-url", card);
       const setPrev = () => {
         if (imageInput.value) { prev.style.backgroundImage = `url('${imageInput.value}')`; prev.textContent = ""; }
-        else { prev.style.backgroundImage = ""; prev.textContent = emojiInput.value || "🧴"; }
+        else { prev.style.backgroundImage = ""; prev.textContent = emojiInput.value || "🏷️"; }
       };
       $(".cc-file", card).addEventListener("change", (e) => { const f = e.target.files[0]; if (!f) return; readImageResized(f, 600, (url) => { imageInput.value = url; urlInput.value = ""; setPrev(); }); });
       urlInput.addEventListener("input", () => { if (urlInput.value.trim()) { imageInput.value = urlInput.value.trim(); setPrev(); } });
       emojiInput.addEventListener("input", setPrev);
       $(".cc-clear", card).addEventListener("click", () => { imageInput.value = ""; urlInput.value = ""; setPrev(); });
       $(".cc-save", card).addEventListener("click", () => {
-        try { GLOW.updateCategory(key, { icon: emojiInput.value.trim() || "🧴", image: imageInput.value }); toast(`«${key}» обновлена ✨`); renderCatEdit(); }
+        try { GLOW.updateCategoryMeta(id, { icon: emojiInput.value.trim() || "🏷️", image: imageInput.value }); toast(`«${key}» обновлена ✨`); renderCatEdit(); renderCatSelect(); pushNow(["cats"], "GLOW: категории"); }
         catch (err) { toast("Не удалось сохранить — фото слишком большое"); }
+      });
+      // переименование категории
+      $(".cc-rename", card).addEventListener("click", () => {
+        const nm = $(".cc-name", card).value.trim();
+        if (!nm) { toast("Введите название"); return; }
+        if (GLOW.renameCategory(id, nm)) { toast("Категория переименована ✏️"); renderCatEdit(); renderCatSelect(); pushNow(["cats", "products"], "GLOW: переименована категория"); }
+        else { toast("Такое название уже есть"); }
+      });
+      // удаление категории
+      $(".cc-delete", card).addEventListener("click", () => {
+        if (confirm(`Удалить категорию «${key}»? Товары останутся, но без этой категории.`)) {
+          GLOW.deleteCategory(id); toast("Категория удалена"); renderCatEdit(); renderCatSelect(); pushNow(["cats"], "GLOW: удалена категория");
+        }
+      });
+      // подкатегории: переименование/удаление
+      $$(".sub-row", card).forEach((row) => {
+        const oldSub = row.dataset.sub;
+        $(".sub-rename", row).addEventListener("click", () => {
+          const nm = $(".sub-name", row).value.trim();
+          if (!nm) { toast("Введите название"); return; }
+          if (GLOW.renameSubcategory(id, oldSub, nm)) { toast("Подкатегория переименована"); renderCatEdit(); renderCatSelect(); pushNow(["cats", "products"], "GLOW: переименована подкатегория"); }
+          else { toast("Такая подкатегория уже есть"); }
+        });
+        $(".sub-del", row).addEventListener("click", () => {
+          if (confirm(`Удалить подкатегорию «${oldSub}»?`)) { GLOW.deleteSubcategory(id, oldSub); toast("Подкатегория удалена"); renderCatEdit(); renderCatSelect(); pushNow(["cats"], "GLOW: удалена подкатегория"); }
+        });
+      });
+      // добавление подкатегории
+      $(".add-sub-row", card).addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nm = $(".new-sub", card).value.trim();
+        if (!nm) return;
+        if (GLOW.addSubcategory(id, nm)) { toast("Подкатегория добавлена ✨"); renderCatEdit(); renderCatSelect(); pushNow(["cats"], "GLOW: добавлена подкатегория"); }
+        else { toast("Такая подкатегория уже есть"); }
       });
     });
   }
   function initCats() {
     renderCatEdit();
-    $("#catsReset").addEventListener("click", () => { if (confirm("Сбросить иконки и фото категорий?")) { GLOW.resetCategories(); renderCatEdit(); toast("Категории сброшены"); } });
+    $("#addCatForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nm = $("#newCatName").value.trim();
+      const ic = $("#newCatIcon").value.trim();
+      if (!nm) return;
+      if (GLOW.addCategory(nm, ic)) { $("#addCatForm").reset(); toast(`Категория «${nm}» добавлена 🎉`); renderCatEdit(); renderCatSelect(); pushNow(["cats"], "GLOW: добавлена категория"); }
+      else { toast("Такая категория уже есть"); }
+    });
+    $("#catsReset").addEventListener("click", () => { if (confirm("Сбросить категории и подкатегории к стандартным?")) { GLOW.resetCategories(); renderCatEdit(); renderCatSelect(); toast("Категории сброшены"); pushNow(["cats"], "GLOW: сброс категорий"); } });
+  }
+
+  /* ---------- Отзывы ---------- */
+  function renderReviewList() {
+    const list = $("#reviewList"), reviews = GLOW.getReviews();
+    if (!reviews.length) { list.innerHTML = `<div class="empty-list">Отзывов пока нет.</div>`; return; }
+    list.innerHTML = reviews.map((r) => `
+      <div class="p-row" data-id="${r.id}">
+        <div class="pic" style="background:var(--pink-soft)">${r.avatar || "💬"}</div>
+        <div class="nm">
+          <b>${r.name} <span class="star">${"★".repeat(r.rating)}</span></b>
+          <span>${r.city || "—"}</span>
+          <small style="white-space:normal">${r.text}</small>
+        </div>
+        <div class="acts">
+          <button class="del" data-del="${r.id}" title="Удалить">🗑</button>
+        </div>
+      </div>`).join("");
+    $$("[data-del]", list).forEach((b) => b.addEventListener("click", () => {
+      if (confirm("Удалить этот отзыв?")) { GLOW.deleteReview(b.dataset.del); renderReviewList(); toast("Отзыв удалён"); pushNow(["reviews"], "GLOW: отзывы"); }
+    }));
+  }
+  function initReviews() {
+    renderReviewList();
+    $("#adminReviewForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      GLOW.addReview({ name: $("#ar_name").value, city: $("#ar_city").value, rating: $("#ar_rating").value, text: $("#ar_text").value });
+      $("#adminReviewForm").reset(); $("#ar_rating").value = 5;
+      renderReviewList(); toast("Отзыв опубликован 💬");
+      pushNow(["reviews"], "GLOW: отзывы");
+    });
+    $("#reviewsReset").addEventListener("click", () => { if (confirm("Сбросить отзывы к стандартным?")) { GLOW.resetReviews(); renderReviewList(); toast("Отзывы сброшены"); pushNow(["reviews"], "GLOW: сброс отзывов"); } });
+  }
+
+  /* ---------- Блог ---------- */
+  function setPostPreview(url, emoji, cover) {
+    const prev = $("#b_prev");
+    if (url) { prev.style.backgroundImage = `url('${url}')`; prev.textContent = ""; prev.style.background = ""; prev.style.backgroundImage = `url('${url}')`; prev.style.backgroundSize = "cover"; prev.style.backgroundPosition = "center"; }
+    else { prev.style.backgroundImage = ""; prev.style.background = cover || BLOG_COVERS[0]; prev.textContent = emoji || "📝"; }
+  }
+  function renderCoverPick() {
+    const cp = $("#coverPick");
+    cp.innerHTML = BLOG_COVERS.map((g) => `<button type="button" data-cover="${g}" style="background:${g}"></button>`).join("");
+    $$("button", cp).forEach((b) => b.addEventListener("click", () => {
+      $("#b_cover").value = b.dataset.cover;
+      $$("button", cp).forEach((x) => x.classList.remove("sel")); b.classList.add("sel");
+      if (!$("#b_image").value) setPostPreview("", $("#b_emoji").value, b.dataset.cover);
+    }));
+  }
+  function selectCover(cover) {
+    const val = cover || BLOG_COVERS[0];
+    $("#b_cover").value = val;
+    $$("#coverPick button").forEach((b) => b.classList.toggle("sel", b.dataset.cover === val));
+  }
+  function renderPostList() {
+    const list = $("#postList"), posts = GLOW.getBlog();
+    if (!posts.length) { list.innerHTML = `<div class="empty-list">Статей пока нет — добавьте первую.</div>`; return; }
+    list.innerHTML = posts.map((p) => `
+      <div class="p-row" data-id="${p.id}">
+        <div class="pic" ${p.image ? `style="background-image:url('${p.image}');background-size:cover;background-position:center"` : `style="background:${p.cover}"`}>${p.image ? "" : (p.emoji || "📝")}</div>
+        <div class="nm">
+          <b>${p.title}</b>
+          <span>${p.date}</span>
+          <small style="white-space:normal">${p.excerpt || ""}</small>
+        </div>
+        <div class="acts">
+          <button class="edit" data-edit="${p.id}" title="Редактировать">✏️</button>
+          <button class="del" data-del="${p.id}" title="Удалить">🗑</button>
+        </div>
+      </div>`).join("");
+    $$("[data-edit]", list).forEach((b) => b.addEventListener("click", () => editPost(b.dataset.edit)));
+    $$("[data-del]", list).forEach((b) => b.addEventListener("click", () => {
+      if (confirm("Удалить статью?")) { GLOW.deletePost(b.dataset.del); renderPostList(); resetPostForm(); toast("Статья удалена"); pushNow(["blog"], "GLOW: блог"); }
+    }));
+  }
+  function editPost(id) {
+    const p = GLOW.getPost(id);
+    if (!p) return;
+    $("#b_id").value = p.id; $("#b_title").value = p.title; $("#b_date").value = p.date;
+    $("#b_emoji").value = p.emoji || ""; $("#b_excerpt").value = p.excerpt || ""; $("#b_body").value = p.body || "";
+    $("#b_image").value = p.image || ""; $("#b_url").value = "";
+    selectCover(p.cover);
+    setPostPreview(p.image, p.emoji, p.cover);
+    $("#postFormTitle").textContent = "Редактирование статьи";
+    $("#postSubmit").textContent = "Сохранить статью";
+    $("#postCancel").style.display = "block";
+    $("#postFormTitle").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  function resetPostForm() {
+    $("#postForm").reset(); $("#b_id").value = ""; $("#b_image").value = "";
+    selectCover(BLOG_COVERS[0]); setPostPreview("", "📝", BLOG_COVERS[0]);
+    $("#postFormTitle").textContent = "Новая статья";
+    $("#postSubmit").textContent = "Добавить статью";
+    $("#postCancel").style.display = "none";
+  }
+  function initBlog() {
+    renderCoverPick(); selectCover(BLOG_COVERS[0]); setPostPreview("", "📝", BLOG_COVERS[0]);
+    renderPostList();
+    $("#b_emoji").addEventListener("input", () => { if (!$("#b_image").value) setPostPreview("", $("#b_emoji").value, $("#b_cover").value); });
+    $("#b_file").addEventListener("change", (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      readImageResized(f, 900, (url) => { $("#b_image").value = url; $("#b_url").value = ""; setPostPreview(url); });
+    });
+    $("#b_url").addEventListener("input", (e) => { const v = e.target.value.trim(); if (v) { $("#b_image").value = v; setPostPreview(v); } });
+    $("#b_clear").addEventListener("click", () => { $("#b_image").value = ""; $("#b_url").value = ""; setPostPreview("", $("#b_emoji").value, $("#b_cover").value); });
+    $("#postForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = {
+        title: $("#b_title").value.trim(), date: $("#b_date").value.trim(),
+        emoji: $("#b_emoji").value.trim() || "📝", excerpt: $("#b_excerpt").value.trim(),
+        body: $("#b_body").value.trim(), cover: $("#b_cover").value || BLOG_COVERS[0], image: $("#b_image").value,
+      };
+      const id = $("#b_id").value;
+      try {
+        if (id) { GLOW.updatePost(id, data); toast("Статья сохранена ✨"); }
+        else { GLOW.addPost(data); toast("Статья добавлена 🎉"); }
+      } catch (err) { toast("Не удалось сохранить — фото слишком большое"); return; }
+      resetPostForm(); renderPostList();
+      pushNow(["blog"], "GLOW: блог");
+    });
+    $("#postCancel").addEventListener("click", resetPostForm);
+    $("#blogReset").addEventListener("click", () => { if (confirm("Сбросить блог к стандартному?")) { GLOW.resetBlog(); renderPostList(); resetPostForm(); toast("Блог сброшен"); pushNow(["blog"], "GLOW: сброс блога"); } });
+  }
+
+  /* ---------- Подключение к GitHub ---------- */
+  function renderConnStatus() {
+    const el = $("#connStatus");
+    if (!el) return;
+    if (!GLOW.hasToken()) { el.className = "conn-status off"; el.textContent = "Не подключено — изменения сохраняются только на этом устройстве"; return; }
+    el.className = "conn-status checking"; el.textContent = "Проверяю подключение…";
+    GLOW.ghTest().then((r) => {
+      if (r.canPush) { el.className = "conn-status on"; el.textContent = `Подключено ✓  ${r.repo} (есть права на запись)`; }
+      else { el.className = "conn-status off"; el.textContent = `Подключено к ${r.repo}, но нет прав на запись. Дайте токену доступ Contents: Read and write.`; }
+    }).catch((e) => { el.className = "conn-status off"; el.textContent = "Ошибка: " + e.message; });
+  }
+  function fillConnForm() {
+    const c = GLOW.ghConfig();
+    $("#gh_owner").value = c.owner; $("#gh_repo").value = c.repo; $("#gh_branch").value = c.branch;
+    $("#gh_token").value = ""; $("#gh_token").placeholder = GLOW.hasToken() ? "•••••••• (токен сохранён)" : "github_pat_…  или  ghp_…";
+  }
+  function initConn() {
+    fillConnForm();
+    $("#connForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      GLOW.setGhConfig({ owner: $("#gh_owner").value, repo: $("#gh_repo").value, branch: $("#gh_branch").value });
+      const tok = $("#gh_token").value.trim();
+      if (tok) GLOW.setGhToken(tok);
+      $("#gh_token").value = "";
+      if (!GLOW.hasToken()) { toast("Введите токен"); renderConnStatus(); return; }
+      toast("Проверяю подключение…");
+      try {
+        const r = await GLOW.ghTest();
+        toast(r.canPush ? "Подключено ✓" : "Подключено, но без прав на запись");
+      } catch (err) { toast("Ошибка: " + err.message); }
+      fillConnForm(); renderConnStatus();
+    });
+    $("#pullBtn").addEventListener("click", async () => {
+      toast("Загрузка с GitHub…");
+      const n = await GLOW.pullAll();
+      renderAllTabs();
+      toast(n ? `Загружено наборов данных: ${n} ✓` : "Не удалось загрузить (нет файлов или сети)");
+    });
+    $("#pushAllBtn").addEventListener("click", async () => {
+      if (!GLOW.hasToken()) { toast("Сначала сохраните токен"); return; }
+      if (!confirm("Выгрузить все текущие данные (товары, категории, отзывы, блог, слайдер) в GitHub?")) return;
+      toast("Выгрузка в GitHub…");
+      try { await GLOW.ghPushMany(["products", "cats", "reviews", "blog", "slides"], "GLOW: первичная выгрузка данных"); toast("Все данные выгружены в GitHub ✓"); renderConnStatus(); }
+      catch (e) { toast("GitHub: " + e.message); }
+    });
   }
 
   /* ---------- Инициализация ---------- */
@@ -267,9 +553,13 @@
     renderPickers();
     renderCatSelect();
     selectPicker(EMOJIS[0], GRADS[0]);
+    $("#f_category").addEventListener("change", () => renderSubSelect($("#f_category").value));
     initTabs();
     initSlides();
     initCats();
+    initReviews();
+    initBlog();
+    initConn();
 
     if (GLOW.isAdmin()) showApp(); else showGate();
 
@@ -287,6 +577,7 @@
         name: $("#f_name").value.trim(),
         brand: $("#f_brand").value.trim(),
         category: $("#f_category").value,
+        subcategory: $("#f_subcategory").value,
         price: $("#f_price").value,
         oldPrice: $("#f_oldPrice").value,
         stock: $("#f_stock").value,
@@ -302,13 +593,14 @@
       else { GLOW.addProduct(data); toast("Товар добавлен в каталог 🎉"); }
       resetForm();
       renderAll();
+      pushNow(["products"], "GLOW: товары");
     });
 
     $("#cancelEdit").addEventListener("click", resetForm);
     $("#search").addEventListener("input", (e) => renderList(e.target.value));
     $("#resetBtn").addEventListener("click", () => {
       if (confirm("Вернуть стандартный каталог? Все ваши изменения будут потеряны.")) {
-        GLOW.resetProducts(); renderAll(); toast("Каталог сброшен к стандартному");
+        GLOW.resetProducts(); renderAll(); toast("Каталог сброшен к стандартному"); pushNow(["products"], "GLOW: сброс каталога");
       }
     });
   }

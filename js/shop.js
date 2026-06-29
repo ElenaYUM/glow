@@ -9,6 +9,7 @@
 
   const STEP = 8; // сколько товаров показывать за один раз
   let activeCategory = "Все";
+  let activeSub = "";   // выбранная подкатегория ("" = все)
   let searchQuery = "";
   let sortMode = "popular";
   let visible = STEP;
@@ -139,7 +140,7 @@
   function openMobile() { $("#mmOverlay").classList.add("open"); $("#mobileMenu").classList.add("open"); document.body.style.overflow = "hidden"; }
   function closeMobile() { $("#mmOverlay").classList.remove("open"); $("#mobileMenu").classList.remove("open"); document.body.style.overflow = ""; }
   function setCategory(cat) {
-    activeCategory = cat; searchQuery = ""; visible = STEP;
+    activeCategory = cat; activeSub = ""; searchQuery = ""; visible = STEP;
     $("#searchInput").value = "";
     renderFilters(); renderCatalog();
     $("#catalog").scrollIntoView({ behavior: "smooth" });
@@ -154,7 +155,26 @@
     const box = $("#filters");
     box.innerHTML = html;
     $$(".chip", box).forEach((ch) => ch.addEventListener("click", () => {
-      activeCategory = ch.dataset.f; visible = STEP; renderFilters(); renderCatalog();
+      activeCategory = ch.dataset.f; activeSub = ""; visible = STEP; renderFilters(); renderCatalog();
+    }));
+    renderSubFilters();
+  }
+
+  /* ---------- Подкатегории (показываются при выбранной категории) ---------- */
+  function renderSubFilters() {
+    const box = $("#subfilters");
+    if (!box) return;
+    const cat = GLOW.getCategories().find((c) => c.key === activeCategory);
+    const subs = cat ? cat.subs : [];
+    if (!cat || !subs.length) { box.innerHTML = ""; box.classList.remove("show"); return; }
+    box.classList.add("show");
+    const all = `<button class="subchip ${activeSub === "" ? "active" : ""}" data-sub="">Все товары</button>`;
+    box.innerHTML = all + subs.map((s) => {
+      const n = GLOW.countBySub(activeCategory, s);
+      return `<button class="subchip ${activeSub === s ? "active" : ""}" data-sub="${s}">${s}${n ? ` <i>${n}</i>` : ""}</button>`;
+    }).join("");
+    $$(".subchip", box).forEach((ch) => ch.addEventListener("click", () => {
+      activeSub = ch.dataset.sub; visible = STEP; renderSubFilters(); renderCatalog();
     }));
   }
 
@@ -169,7 +189,10 @@
   }
   function getCatalogItems() {
     let items = activeCategory === "Избранное" ? GLOW.wishlistProducts() : GLOW.getProducts();
-    if (activeCategory !== "Все" && activeCategory !== "Избранное") items = items.filter((p) => p.category === activeCategory);
+    if (activeCategory !== "Все" && activeCategory !== "Избранное") {
+      items = items.filter((p) => p.category === activeCategory);
+      if (activeSub) items = items.filter((p) => p.subcategory === activeSub);
+    }
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       items = items.filter((p) => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q));
@@ -349,6 +372,71 @@
     $$(".reveal:not(.in)").forEach((el) => io.observe(el));
   }
 
+  /* ---------- Отзывы ---------- */
+  function escapeHTML(s) { return (s || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+  function renderReviews() {
+    const grid = $("#reviewsGrid");
+    if (!grid) return;
+    const reviews = GLOW.getReviews();
+    const avg = GLOW.reviewsAverage();
+    const avgEl = $("#reviewsAvg");
+    if (avgEl) avgEl.textContent = `⭐ ${avg.toFixed(1)} из 5 · ${reviews.length} отзыв${plural(reviews.length)}`;
+    if (!reviews.length) { grid.innerHTML = `<p class="empty-cat">Пока нет отзывов — будьте первым ✨</p>`; return; }
+    grid.innerHTML = reviews.map((r) => `
+      <div class="review reveal">
+        <div class="stars">${stars(r.rating)}</div>
+        <p>«${escapeHTML(r.text)}»</p>
+        <div class="who"><div class="av">${r.avatar || "🙂"}</div><div><b>${escapeHTML(r.name)}</b><span>${escapeHTML(r.city)}</span></div></div>
+      </div>`).join("");
+    observeReveal();
+  }
+  function plural(n) { const a = n % 10, b = n % 100; if (a === 1 && b !== 11) return ""; if (a >= 2 && a <= 4 && (b < 10 || b >= 20)) return "а"; return "ов"; }
+
+  function openReviewModal() {
+    $("#reviewForm").reset();
+    $("#rv_rating").value = "5";
+    renderStarPick(5);
+    $("#reviewModal").classList.add("open"); document.body.style.overflow = "hidden";
+    setTimeout(() => $("#rv_name").focus(), 200);
+  }
+  function closeReviewModal() { $("#reviewModal").classList.remove("open"); document.body.style.overflow = ""; }
+  function renderStarPick(val) {
+    const box = $("#rv_starPick");
+    box.innerHTML = [1, 2, 3, 4, 5].map((i) => `<button type="button" class="sp ${i <= val ? "on" : ""}" data-star="${i}">★</button>`).join("");
+    $$(".sp", box).forEach((b) => b.addEventListener("click", () => { $("#rv_rating").value = b.dataset.star; renderStarPick(+b.dataset.star); }));
+  }
+
+  /* ---------- Блог ---------- */
+  function renderBlog() {
+    const grid = $("#blogGrid");
+    if (!grid) return;
+    const posts = GLOW.getBlog();
+    if (!posts.length) { grid.innerHTML = `<p class="empty-cat">Скоро здесь появятся статьи 📝</p>`; return; }
+    grid.innerHTML = posts.map((p) => `
+      <article class="post reveal" data-post="${p.id}">
+        <div class="cover" ${p.image ? `style="background-image:url('${p.image}');background-size:cover;background-position:center"` : `style="background:${p.cover}"`}>${p.image ? "" : (p.emoji || "📝")}</div>
+        <div class="pb"><span class="date">${escapeHTML(p.date)}</span><h4>${escapeHTML(p.title)}</h4><p>${escapeHTML(p.excerpt)}</p></div>
+      </article>`).join("");
+    $$("[data-post]", grid).forEach((a) => a.addEventListener("click", () => openPost(a.dataset.post)));
+    observeReveal();
+  }
+  function openPost(id) {
+    const p = GLOW.getPost(id);
+    if (!p) return;
+    const bodyHTML = escapeHTML(p.body).split(/\n+/).filter(Boolean).map((par) => `<p>${par}</p>`).join("");
+    $("#postModal .modal-card").innerHTML = `
+      <button class="qv-close" id="postClose">✕</button>
+      <div class="post-cover" ${p.image ? `style="background-image:url('${p.image}');background-size:cover;background-position:center"` : `style="background:${p.cover}"`}>${p.image ? "" : (p.emoji || "📝")}</div>
+      <div class="post-read">
+        <span class="date">${escapeHTML(p.date)}</span>
+        <h2>${escapeHTML(p.title)}</h2>
+        <div class="post-body">${bodyHTML || `<p>${escapeHTML(p.excerpt)}</p>`}</div>
+      </div>`;
+    $("#postModal").classList.add("open"); document.body.style.overflow = "hidden";
+    $("#postClose").onclick = closePost;
+  }
+  function closePost() { $("#postModal").classList.remove("open"); document.body.style.overflow = ""; }
+
   /* ---------- Админ-модалка ---------- */
   function openAdminModal() {
     if (GLOW.isAdmin()) { window.location.href = "admin.html"; return; }
@@ -360,6 +448,7 @@
   function init() {
     renderCatNav(); renderCatGrid(); renderFooterCats(); renderMobileMenu();
     renderFilters(); renderSale(); renderNew(); renderCatalog();
+    renderReviews(); renderBlog();
     updateCartCount(); updateWishCount(); renderSlides(); initSlider(); observeReveal();
 
     $("#catalogBtn").addEventListener("click", () => $("#categories").scrollIntoView({ behavior: "smooth" }));
@@ -373,6 +462,23 @@
 
     // быстрый просмотр — закрытие
     $("#quickModal").addEventListener("click", (e) => { if (e.target.id === "quickModal") closeQuickView(); });
+
+    // отзывы — открыть/закрыть/отправить
+    $("#openReviewBtn").addEventListener("click", openReviewModal);
+    $("#rvClose").addEventListener("click", closeReviewModal);
+    $("#reviewModal").addEventListener("click", (e) => { if (e.target.id === "reviewModal") closeReviewModal(); });
+    $("#reviewForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      GLOW.addReview({
+        name: $("#rv_name").value, city: $("#rv_city").value,
+        rating: $("#rv_rating").value, text: $("#rv_text").value,
+      });
+      closeReviewModal(); renderReviews(); toast("Спасибо за отзыв! 💛");
+      $("#reviews").scrollIntoView({ behavior: "smooth" });
+    });
+
+    // блог — закрытие статьи
+    $("#postModal").addEventListener("click", (e) => { if (e.target.id === "postModal") closePost(); });
 
     // оформление заказа
     $("#coClose").addEventListener("click", closeCheckout);
@@ -401,7 +507,7 @@
 
     // поиск
     $("#searchForm").addEventListener("submit", (e) => {
-      e.preventDefault(); searchQuery = $("#searchInput").value.trim(); activeCategory = "Все"; visible = STEP;
+      e.preventDefault(); searchQuery = $("#searchInput").value.trim(); activeCategory = "Все"; activeSub = ""; visible = STEP;
       renderFilters(); renderCatalog(); $("#catalog").scrollIntoView({ behavior: "smooth" });
     });
     // живой поиск
@@ -414,7 +520,7 @@
     // избранное
     $("#wishBtn").addEventListener("click", () => {
       if (!GLOW.wishlistCount()) { toast("В избранном пока пусто 🤍"); return; }
-      activeCategory = "Избранное"; searchQuery = ""; $("#searchInput").value = ""; visible = STEP;
+      activeCategory = "Избранное"; activeSub = ""; searchQuery = ""; $("#searchInput").value = ""; visible = STEP;
       renderFilters(); renderCatalog(); $("#catalog").scrollIntoView({ behavior: "smooth" });
     });
 
@@ -437,8 +543,11 @@
     });
     toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeCart(); closeAdminModal(); closeQuickView(); closeCheckout(); closeMobile(); } });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeCart(); closeAdminModal(); closeQuickView(); closeCheckout(); closeMobile(); closeReviewModal(); closePost(); } });
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  // сначала тянем актуальные данные из GitHub, потом рисуем витрину
+  document.addEventListener("DOMContentLoaded", () => {
+    GLOW.boot().finally(init);
+  });
 })();

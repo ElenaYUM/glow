@@ -265,6 +265,42 @@ section { padding: 3.6rem 0; }
 .post .date { font-size: .74rem; color: var(--pink); font-weight: 700; }
 .post h4 { font-size: 1rem; font-weight: 700; margin: .5rem 0 .6rem; line-height: 1.35; }
 .post p { font-size: .86rem; color: var(--ink-2); }
+.post { cursor: pointer; }
+
+/* телефон в шапке */
+.header-phone { display: flex; align-items: center; gap: .5rem; flex: none; padding: .4rem .6rem; border-radius: var(--radius-pill); transition: background .2s; }
+.header-phone:hover { background: var(--pink-soft); }
+.header-phone .hp-ic { font-size: 1.1rem; }
+.header-phone .hp-num { font-size: 1rem; font-weight: 800; color: var(--ink); white-space: nowrap; }
+
+/* подкатегории (чипы второго уровня) */
+.subfilters { display: none; gap: .5rem; flex-wrap: wrap; margin: -.6rem 0 1.8rem; padding-bottom: .2rem; }
+.subfilters.show { display: flex; }
+.subchip { font-size: .82rem; font-weight: 500; padding: .45rem .95rem; border-radius: var(--radius-pill);
+  background: #fff; border: 1px solid var(--line-2); color: var(--ink-2); transition: all .2s var(--ease); }
+.subchip:hover { border-color: var(--pink); color: var(--pink-dark); }
+.subchip.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+.subchip i { font-style: normal; opacity: .65; font-size: .75rem; margin-left: .15rem; }
+
+/* «оставить отзыв» */
+.review-cta { text-align: center; margin-top: 1.8rem; }
+.review-cta .btn { padding: .8rem 1.8rem; }
+
+/* модалка отзыва */
+#reviewModal .modal { width: min(540px,100%); text-align: left; position: relative; }
+.rv-close { position: absolute; top: 1.1rem; right: 1.1rem; }
+.star-pick { display: flex; gap: .3rem; }
+.star-pick .sp { font-size: 1.8rem; line-height: 1; color: var(--line-2); transition: color .15s, transform .15s; }
+.star-pick .sp:hover { transform: scale(1.15); }
+.star-pick .sp.on { color: var(--star); }
+
+/* модалка статьи блога */
+.post-card { padding-bottom: 1rem; }
+.post-cover { aspect-ratio: 21/9; display: grid; place-items: center; font-size: 4rem; border-radius: 20px 20px 0 0; }
+.post-read { padding: 1.8rem 2.2rem 1rem; }
+.post-read .date { font-size: .8rem; color: var(--pink); font-weight: 700; }
+.post-read h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.4rem,3vw,2rem); margin: .4rem 0 1.2rem; line-height: 1.25; }
+.post-body p { font-size: 1rem; color: var(--ink-2); line-height: 1.75; margin-bottom: 1.1rem; }
 
 /* ============================================================
    ПРОМО-БЛОК (промокод)
@@ -440,7 +476,7 @@ section { padding: 3.6rem 0; }
 @media (max-width: 1080px) { .products { grid-template-columns: repeat(3,1fr); } .cat-grid { grid-template-columns: repeat(2,1fr); } .cat-tile:nth-child(1){ grid-column: span 2; } }
 @media (max-width: 900px) {
   .topbar { font-size: .72rem; }
-  .topbar .left { gap: 1rem; } .topbar .left .hide-sm { display: none; }
+  .topbar .left { gap: 1rem; } .topbar .hide-sm { display: none; }
   /* мобильная шапка: бургер · лого · иконки, поиск на всю ширину снизу */
   .burger { display: flex; order: 0; }
   .header-main { flex-wrap: wrap; height: auto; padding: .6rem 0; gap: .6rem; }
@@ -450,6 +486,7 @@ section { padding: 3.6rem 0; }
   .act { padding: .45rem .5rem; }
   .act span:not(.ic):not(.cart-count) { display: none; }
   .cat-btn { display: none; }
+  .header-phone { display: none; }
   .search { order: 3; flex-basis: 100%; max-width: 100%; }
   .slider-arrow { display: none; }
   .slide { grid-template-columns: 1fr; }
@@ -479,6 +516,7 @@ section { padding: 3.6rem 0; }
   .slide h2 { font-size: 2.4rem; }
   .slide .s-copy { padding: 2.2rem 1.5rem; }
   .brand-row { gap: 1.4rem; } .brand-row span { font-size: 1.05rem; }
+  .post-read { padding: 1.4rem 1.3rem; }
   .to-top { right: 14px; bottom: 14px; width: 44px; height: 44px; }
   .toasts { bottom: 14px; width: 92vw; }
   .drawer-head, .drawer-body, .drawer-foot { padding-inline: 1.1rem; }

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "s1",
+    "tone": "t1",
+    "emoji": "💆‍♀️",
+    "image": "",
+    "title": "GLOW",
+    "pill": "full-size в подарок",
+    "subtitle": "при покупке от 15 000 ₽",
+    "btn": "в каталог",
+    "link": "#catalog"
+  },
+  {
+    "id": "s2",
+    "tone": "t2",
+    "emoji": "💄",
+    "image": "",
+    "title": "−30%",
+    "pill": "сезон распродаж",
+    "subtitle": "на бестселлеры COSRX, Anua и Beauty of Joseon",
+    "btn": "смотреть акции",
+    "link": "#sale"
+  },
+  {
+    "id": "s3",
+    "tone": "t3",
+    "emoji": "✨",
+    "image": "",
+    "title": "Наборы",
+    "pill": "готовый ритуал ухода",
+    "subtitle": "тонер, сыворотка, крем и SPF со скидкой до 25%",
+    "btn": "выбрать набор",
+    "link": "#catalog"
+  }
+]

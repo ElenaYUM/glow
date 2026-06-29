@@ -20,8 +20,7 @@
         <span class="hide-sm">Бесплатная доставка на заказы от 1 000 ₽</span>
       </div>
       <div class="right">
-        <a href="#">RU</a>
-        <a href="#">Укажите ваш город ▾</a>
+        <a href="tel:+375257940720">📞 +375 (25) 794-07-20</a>
       </div>
     </div>
   </div>
@@ -39,6 +38,11 @@
         <input type="search" id="searchInput" placeholder="Поиск по товарам и брендам…" />
         <button type="submit">Найти</button>
       </form>
+
+      <a class="header-phone" href="tel:+375257940720">
+        <span class="hp-ic">📞</span>
+        <span class="hp-num">+375 (25) 794-07-20</span>
+      </a>
 
       <div class="header-actions">
         <button class="act" id="adminBtn"><span class="ic">👤</span><span>Админ</span></button>
@@ -156,6 +160,7 @@
         </div>
       </div>
       <div class="filters" id="filters"></div>
+      <div class="subfilters" id="subfilters"></div>
       <div class="products" id="products"></div>
       <div class="load-more-wrap"><button class="btn btn-line" id="loadMore">Показать ещё</button></div>
     </div>
@@ -176,23 +181,13 @@
   <!-- ОТЗЫВЫ -->
   <section id="reviews">
     <div class="container">
-      <div class="sec-head"><h2>Отзывы покупателей</h2><span class="link">⭐ 4.9 из 5 · 1 200+ отзывов</span></div>
-      <div class="reviews-grid">
-        <div class="review">
-          <div class="stars">★★★★★</div>
-          <p>«Заказываю уже третий раз. Всё оригинал, упаковано идеально, доставка быстрая. Кожа реально стала лучше с эссенцией COSRX!»</p>
-          <div class="who"><div class="av">🙋‍♀️</div><div><b>Алина К.</b><span>Минск</span></div></div>
-        </div>
-        <div class="review">
-          <div class="stars">★★★★★</div>
-          <p>«Влюбилась в тонер Anua. Менеджер помог подобрать уход под мою чувствительную кожу. Сервис на высоте, рекомендую!»</p>
-          <div class="who"><div class="av">👩</div><div><b>Дарья М.</b><span>Гомель</span></div></div>
-        </div>
-        <div class="review">
-          <div class="stars">★★★★★</div>
-          <p>«Брала набор в подарок сестре — она в восторге. Красивая упаковка, приятные сэмплы в комплекте. Спасибо GLOW!»</p>
-          <div class="who"><div class="av">🧑</div><div><b>Ольга В.</b><span>Брест</span></div></div>
-        </div>
+      <div class="sec-head">
+        <h2>Отзывы покупателей</h2>
+        <span class="link" id="reviewsAvg">⭐ 4.9 из 5</span>
+      </div>
+      <div class="reviews-grid" id="reviewsGrid"></div>
+      <div class="review-cta">
+        <button class="btn btn-line" id="openReviewBtn">✍️ Оставить отзыв</button>
       </div>
     </div>
   </section>
@@ -200,21 +195,8 @@
   <!-- БЛОГ -->
   <section id="blog" style="background:var(--bg-soft)">
     <div class="container">
-      <div class="sec-head"><h2>Из блога</h2><a href="#" class="link">Все статьи →</a></div>
-      <div class="blog-grid">
-        <article class="post">
-          <div class="cover t1" style="background:linear-gradient(120deg,#fdeef0,#f8dfe3)">📖</div>
-          <div class="pb"><span class="date">12 июня 2026</span><h4>Корейский уход за кожей: 10 шагов простым языком</h4><p>Разбираем, что и в каком порядке наносить, чтобы кожа сияла.</p></div>
-        </article>
-        <article class="post">
-          <div class="cover t2" style="background:linear-gradient(120deg,#f3f0ec,#e9e2d6)">🧪</div>
-          <div class="pb"><span class="date">5 июня 2026</span><h4>Муцин улитки: чем полезен и кому подойдёт</h4><p>Главный ингредиент K-beauty и как его правильно использовать.</p></div>
-        </article>
-        <article class="post">
-          <div class="cover t3" style="background:linear-gradient(120deg,#eef1f3,#dfe7ea)">☀️</div>
-          <div class="pb"><span class="date">28 мая 2026</span><h4>SPF каждый день: выбираем санскрин без белёсости</h4><p>Сравниваем популярные корейские солнцезащитные средства.</p></div>
-        </article>
-      </div>
+      <div class="sec-head"><h2>Из блога</h2></div>
+      <div class="blog-grid" id="blogGrid"></div>
     </div>
   </section>
 
@@ -246,8 +228,8 @@
         <div>
           <span class="logo-text">GL<span class="o">O<i class="spark">✦</i></span>W</span>
           <div class="f-contact">
-            <a href="tel:+78123456789" class="f-phone">8 812 345 67 89</a>
-            <a href="mailto:hello@glow.shop" class="f-mail">hello@glow.shop <small>служба поддержки</small></a>
+            <a href="tel:+375257940720" class="f-phone">+375 (25) 794-07-20</a>
+            <span class="f-mail"><small>служба поддержки</small></span>
           </div>
           <div class="legal">
             <a href="#">Договор оферты</a>
@@ -331,7 +313,6 @@
         <div class="field">
           <label for="adminPass">Пароль</label>
           <input type="password" id="adminPass" placeholder="••••••••" autocomplete="off" />
-          <div class="hint">Демо-пароль: <b>glow2026</b></div>
         </div>
         <div class="err" id="adminErr"></div>
         <button class="btn btn-red checkout-btn" type="submit">Войти →</button>
@@ -342,6 +323,33 @@
   <!-- БЫСТРЫЙ ПРОСМОТР -->
   <div class="modal-wrap qv-wrap" id="quickModal">
     <div class="modal-card qv"></div>
+  </div>
+
+  <!-- МОДАЛКА: ОСТАВИТЬ ОТЗЫВ -->
+  <div class="modal-wrap" id="reviewModal">
+    <div class="modal">
+      <button class="close-btn rv-close" id="rvClose">✕</button>
+      <h3>Оставить отзыв</h3>
+      <p>Поделитесь впечатлением — это поможет другим покупателям</p>
+      <form id="reviewForm">
+        <div class="row2">
+          <div class="field"><label>Имя</label><input type="text" id="rv_name" placeholder="Ваше имя" required /></div>
+          <div class="field"><label>Город</label><input type="text" id="rv_city" placeholder="Минск" /></div>
+        </div>
+        <div class="field">
+          <label>Оценка</label>
+          <div class="star-pick" id="rv_starPick"></div>
+          <input type="hidden" id="rv_rating" value="5" />
+        </div>
+        <div class="field"><label>Отзыв</label><textarea id="rv_text" rows="4" placeholder="Расскажите о товаре и сервисе…" required></textarea></div>
+        <button class="btn btn-red checkout-btn" type="submit">Опубликовать отзыв</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- МОДАЛКА: СТАТЬЯ БЛОГА -->
+  <div class="modal-wrap qv-wrap" id="postModal">
+    <div class="modal-card post-card"></div>
   </div>
 
   <!-- ОФОРМЛЕНИЕ ЗАКАЗА -->
