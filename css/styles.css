@@ -471,59 +471,159 @@ section { padding: 3.6rem 0; }
 .mm-div { height: 1px; background: var(--line); margin: .6rem .4rem; }
 
 /* ============================================================
-   АДАПТИВ
+   НИЖНЯЯ ПАНЕЛЬ (мобильный таб-бар, app-style)
+   Показывается только на телефонах, скрыта на десктопе.
    ============================================================ */
-@media (max-width: 1080px) { .products { grid-template-columns: repeat(3,1fr); } .cat-grid { grid-template-columns: repeat(2,1fr); } .cat-tile:nth-child(1){ grid-column: span 2; } }
+.mobile-bar { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 130;
+  background: rgba(255,255,255,.94); backdrop-filter: blur(12px); border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+  grid-template-columns: repeat(4, 1fr); }
+.mb-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .15rem;
+  padding: .55rem 0 .5rem; font-size: .62rem; font-weight: 600; color: var(--ink-2); position: relative; min-height: 56px;
+  transition: color .2s; }
+.mb-item:active { color: var(--pink-dark); }
+.mb-item .mb-ic { font-size: 1.4rem; line-height: 1; }
+.mb-badge { position: absolute; top: 4px; left: calc(50% + 6px); min-width: 17px; height: 17px; padding: 0 4px;
+  background: var(--pink); color: #fff; font-size: .6rem; font-weight: 700; border-radius: 999px;
+  display: grid; place-items: center; border: 2px solid #fff; transform: scale(0); transition: transform .25s var(--ease); }
+.mb-badge.show { transform: scale(1); }
+
+/* ============================================================
+   АДАПТИВ — мобильная версия
+   Брейкпоинты: 1080 (планшет) · 900 (мобильная шапка) · 640 (телефон) · 400 (узкий)
+   ============================================================ */
+
+/* отступ для якорных переходов под липкой шапкой + без серой вспышки на тап */
+html { scroll-padding-top: 150px; }
+@media (hover: none) { a, button { -webkit-tap-highlight-color: transparent; } }
+
+/* ---------- ПЛАНШЕТ ---------- */
+@media (max-width: 1080px) {
+  .products { grid-template-columns: repeat(3, 1fr); }
+  .cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .cat-tile:nth-child(1) { grid-column: span 2; }
+}
+
+/* ---------- МОБИЛЬНАЯ ШАПКА (≤900) ---------- */
 @media (max-width: 900px) {
+  html { scroll-padding-top: 124px; }
+  body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); } /* место под таб-бар */
+  .mobile-bar { display: grid; }
+
+  /* служебная полоса компактнее */
   .topbar { font-size: .72rem; }
-  .topbar .left { gap: 1rem; } .topbar .hide-sm { display: none; }
-  /* мобильная шапка: бургер · лого · иконки, поиск на всю ширину снизу */
-  .burger { display: flex; order: 0; }
-  .header-main { flex-wrap: wrap; height: auto; padding: .6rem 0; gap: .6rem; }
+  .topbar .container { height: 36px; }
+  .topbar .left { gap: 1rem; }
+  .topbar .hide-sm { display: none; }
+
+  /* шапка: [бургер] [лого] [иконки]  +  поиск на всю ширину снизу */
+  .header-main { flex-wrap: wrap; height: auto; padding: .55rem 0 .7rem; gap: .5rem .6rem; }
+  .burger { display: flex; order: 0; width: 42px; height: 42px; margin-left: -.4rem; }
   .logo { order: 1; }
   .logo-text { font-size: 1.4rem; }
   .header-actions { order: 2; margin-left: auto; gap: .1rem; }
-  .act { padding: .45rem .5rem; }
+  .act { padding: .5rem; min-width: 44px; min-height: 44px; justify-content: center; }
   .act span:not(.ic):not(.cart-count) { display: none; }
-  .cat-btn { display: none; }
-  .header-phone { display: none; }
-  .search { order: 3; flex-basis: 100%; max-width: 100%; }
+  .act .ic { font-size: 1.4rem; }
+  #adminBtn { display: none; }            /* админка — из бургер-меню и подвала */
+  .cat-btn, .header-phone { display: none; }
+  .catnav { display: none; }              /* навигация дублируется в бургер-меню */
+  .search { order: 3; flex-basis: 100%; max-width: 100%; padding-block: .15rem; }
+
+  /* герой-слайдер в один столбец */
+  .hero { padding-top: 1rem; }
+  .slider { border-radius: 20px; }
   .slider-arrow { display: none; }
-  .slide { grid-template-columns: 1fr; }
-  .slide .s-copy { padding: 2.6rem 2rem; }
-  .slide .s-visual { min-height: 180px; }
+  .slide { grid-template-columns: 1fr; min-height: 0; }
+  .slide .s-copy { padding: 2.4rem 1.8rem; }
+  .slide .s-prod { font-size: 2.6rem; margin-bottom: .5rem; }
+  .slide .s-visual { min-height: 168px; }
+  .slide .s-visual .motif { font-size: clamp(5rem, 28vw, 8rem); }
+
+  /* сетки в один столбец */
   .reviews-grid, .blog-grid { grid-template-columns: 1fr; }
   .promo-band .promo-inner { grid-template-columns: 1fr; }
-  .promo-left { padding: 2.4rem 2rem; }
-  .promo-right { min-height: 180px; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-  .qv { grid-template-columns: 1fr; } .qv-media { min-height: 220px; font-size: 4.5rem; } .qv-info { padding: 1.6rem; }
+  .promo-left { padding: 2.4rem 1.8rem; }
+  .promo-right { min-height: 160px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.6rem 1.4rem; }
+  .footer-grid > :first-child { grid-column: 1 / -1; }
+
+  /* модалки на всю ширину */
+  .qv { grid-template-columns: 1fr; }
+  .qv-media { min-height: 200px; font-size: 4.5rem; }
+  .qv-info { padding: 1.6rem; }
   .co-grid { grid-template-columns: 1fr; }
+
+  /* убрать авто-зум iOS при фокусе в поля (нужен размер ≥16px) */
+  .search input, .field input, .field select, .field textarea,
+  .subscribe input, .sort-select, .promo-row input { font-size: 16px; }
 }
-@media (max-width: 600px) {
-  section { padding: 2.6rem 0; }
-  .sec-head { margin-bottom: 1.3rem; }
+
+/* ---------- ТЕЛЕФОН (≤640) ---------- */
+@media (max-width: 640px) {
+  section { padding: 2.4rem 0; }
+  .sec-head { margin-bottom: 1.2rem; }
+  .sec-head h2 { font-size: 1.45rem; }
+
   .search .ic { display: none; }
-  .cat-grid { grid-template-columns: 1fr 1fr; gap: .7rem; } .cat-tile:nth-child(1){ grid-column: span 2; }
-  .cat-tile { min-height: 120px; padding: 1.1rem; }
-  .products { grid-template-columns: repeat(2,1fr); gap: .7rem; }
+  .search { padding-left: 1rem; }
+  .search button { padding: .7rem 1.1rem; }
+
+  /* категории: 2 в ряд, первая — на всю ширину */
+  .cat-grid { grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .cat-tile:nth-child(1) { grid-column: span 2; }
+  .cat-tile { min-height: 116px; padding: 1.1rem; }
+  .cat-tile .emojis { font-size: 2.2rem; }
+  .cat-tile:nth-child(1) .emojis { font-size: 3rem; }
+
+  /* товары: 2 в ряд, компактнее */
+  .products { grid-template-columns: repeat(2, 1fr); gap: .7rem; }
+  .card-body { padding: .7rem .75rem .85rem; }
   .card-name { font-size: .82rem; }
-  .price { font-size: 1rem; }
-  .footer-grid { grid-template-columns: 1fr; gap: 1.6rem; }
+  .card-media .ico { font-size: 2.6rem; }
+  .price { font-size: 1.02rem; }
+  .add-round { width: 36px; height: 36px; }
+
+  /* подвал в две колонки, бренд-блок на всю ширину */
   .footer { text-align: left; }
   .subscribe { flex-direction: column; }
+  .subscribe .btn { width: 100%; }
   .row2 { grid-template-columns: 1fr; }
-  .slide h2 { font-size: 2.4rem; }
-  .slide .s-copy { padding: 2.2rem 1.5rem; }
-  .brand-row { gap: 1.4rem; } .brand-row span { font-size: 1.05rem; }
+
+  .slide h2 { font-size: clamp(2rem, 11vw, 2.6rem); }
+  .slide .s-copy { padding: 2.1rem 1.4rem; }
+  .slide p { font-size: .92rem; }
+
+  .brand-row { gap: 1.2rem 1.6rem; }
+  .brand-row span { font-size: 1.02rem; }
   .post-read { padding: 1.4rem 1.3rem; }
-  .to-top { right: 14px; bottom: 14px; width: 44px; height: 44px; }
-  .toasts { bottom: 14px; width: 92vw; }
+
+  /* модалки на телефоне */
+  .modal { padding: 1.8rem 1.4rem; border-radius: 18px; }
+  .co-head { padding: 1.1rem 1.3rem; }
+  .co-body { padding: 1.3rem 1.3rem 1.6rem; }
   .drawer-head, .drawer-body, .drawer-foot { padding-inline: 1.1rem; }
+
+  /* плавающие элементы — выше таб-бара и с учётом «безопасной зоны» iOS */
+  .to-top { right: 14px; bottom: calc(64px + env(safe-area-inset-bottom)); width: 46px; height: 46px; }
+  .toasts { bottom: calc(70px + env(safe-area-inset-bottom)); width: 92vw; }
 }
-@media (max-width: 380px) {
-  .products { grid-template-columns: 1fr 1fr; }
-  .act { padding: .4rem .35rem; }
+
+/* ---------- УЗКИЙ ТЕЛЕФОН (≤400) ---------- */
+@media (max-width: 400px) {
+  .topbar .left span:first-child { white-space: nowrap; }
   .logo-text { font-size: 1.25rem; }
+  .act { min-width: 40px; padding: .45rem .25rem; }
+  .cat-tile { min-height: 104px; padding: .9rem; }
+  .slide h2 { font-size: 2rem; }
+  .mb-item { font-size: .58rem; }
 }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .reveal { opacity: 1; transform: none; } }
+
+/* выезжающие панели — отступ снизу под «безопасную зону» iOS */
+.drawer-foot { padding-bottom: calc(1.3rem + env(safe-area-inset-bottom)); }
+.mm-nav { padding-bottom: calc(.8rem + env(safe-area-inset-bottom)); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+}

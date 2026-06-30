@@ -16,8 +16,8 @@ const GLOW = (() => {
     admin: "glow_admin_session",
   };
 
-  const FREE_SHIPPING_FROM = 3000; // ₽ — порог бесплатной доставки
-  const SHIPPING_COST = 290;       // ₽ — стоимость доставки ниже порога
+  const FREE_SHIPPING_FROM = 3000; // Br — порог бесплатной доставки
+  const SHIPPING_COST = 290;       // Br — стоимость доставки ниже порога
   const PROMOS = { GLOW10: 10, SEOUL15: 15, BEAUTY: 5 }; // промокоды → % скидки
 
   const ADMIN_PASSWORD = "Yum30555"; // пароль админки
@@ -34,7 +34,7 @@ const GLOW = (() => {
 
   /* ---------- Слайды главного баннера ---------- */
   const SEED_SLIDES = [
-    { id:"s1", tone:"t1", emoji:"💆‍♀️", image:"", title:"GLOW", pill:"full-size в подарок", subtitle:"при покупке от 15 000 ₽", btn:"в каталог", link:"#catalog" },
+    { id:"s1", tone:"t1", emoji:"💆‍♀️", image:"", title:"GLOW", pill:"full-size в подарок", subtitle:"при покупке от 15 000 Br", btn:"в каталог", link:"#catalog" },
     { id:"s2", tone:"t2", emoji:"💄", image:"", title:"−30%", pill:"сезон распродаж", subtitle:"на бестселлеры COSRX, Anua и Beauty of Joseon", btn:"смотреть акции", link:"#sale" },
     { id:"s3", tone:"t3", emoji:"✨", image:"", title:"Наборы", pill:"готовый ритуал ухода", subtitle:"тонер, сыворотка, крем и SPF со скидкой до 25%", btn:"выбрать набор", link:"#catalog" },
   ];
@@ -430,7 +430,7 @@ const GLOW = (() => {
   function isAdmin() { return sessionStorage.getItem(KEYS.admin) === "1"; }
   function logout() { sessionStorage.removeItem(KEYS.admin); }
 
-  function formatPrice(n) { return new Intl.NumberFormat("ru-RU").format(n) + " ₽"; }
+  function formatPrice(n) { return new Intl.NumberFormat("ru-RU").format(n) + " Br"; }
 
   return {
     TONES,

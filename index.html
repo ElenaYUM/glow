@@ -17,7 +17,7 @@
     <div class="container">
       <div class="left">
         <span><b>−10%</b> на первый заказ</span>
-        <span class="hide-sm">Бесплатная доставка на заказы от 1 000 ₽</span>
+        <span class="hide-sm">Бесплатная доставка на заказы от 1 000 Br</span>
       </div>
       <div class="right">
         <a href="tel:+375257940720">📞 +375 (25) 794-07-20</a>
@@ -78,7 +78,7 @@
               <span class="s-prod">🧴</span>
               <h2>GLOW</h2>
               <span class="s-pill">full-size в подарок</span>
-              <p>при покупке от 15 000 ₽</p>
+              <p>при покупке от 15 000 Br</p>
               <a href="#catalog" class="btn btn-red">в каталог <span class="arrow">→</span></a>
             </div>
             <div class="s-visual"><span class="motif">💆‍♀️</span></div>
@@ -296,9 +296,9 @@
     <div class="drawer-body" id="cartBody"></div>
     <div class="drawer-foot" id="cartFoot" style="display:none">
       <div class="sum-row"><span>Товаров</span><span id="sumCount">0</span></div>
-      <div class="sum-row save" id="saveRow" style="display:none"><span>Ваша выгода</span><span id="sumSave">0 ₽</span></div>
+      <div class="sum-row save" id="saveRow" style="display:none"><span>Ваша выгода</span><span id="sumSave">0 Br</span></div>
       <div class="sum-row"><span>Доставка</span><span id="sumShip">Бесплатно</span></div>
-      <div class="sum-row total"><span>Итого</span><span id="sumTotal">0 ₽</span></div>
+      <div class="sum-row total"><span>Итого</span><span id="sumTotal">0 Br</span></div>
       <button class="btn btn-red checkout-btn" id="checkoutBtn">Оформить заказ <span class="arrow">→</span></button>
     </div>
   </aside>
@@ -364,10 +364,10 @@
           <div class="co-fields">
             <div class="row2">
               <div class="field"><label>Имя и фамилия</label><input type="text" id="coName" required placeholder="Елена Иванова" /></div>
-              <div class="field"><label>Телефон</label><input type="tel" id="coPhone" required placeholder="+7 900 000-00-00" /></div>
+              <div class="field"><label>Телефон</label><input type="tel" id="coPhone" required placeholder="+375 29 000-00-00" /></div>
             </div>
             <div class="row2">
-              <div class="field"><label>Город</label><input type="text" id="coCity" required placeholder="Москва" /></div>
+              <div class="field"><label>Город</label><input type="text" id="coCity" required placeholder="Минск" /></div>
               <div class="field"><label>Способ доставки</label>
                 <select id="coDelivery">
                   <option>Курьер до двери</option>
@@ -410,7 +410,54 @@
 
   <div class="toasts" id="toasts"></div>
 
+  <!-- НИЖНЯЯ ПАНЕЛЬ (только на телефонах) -->
+  <nav class="mobile-bar" id="mobileBar" aria-label="Быстрые действия">
+    <button class="mb-item" data-act="home"><span class="mb-ic">🏠</span><span>Главная</span></button>
+    <button class="mb-item" data-act="search"><span class="mb-ic">🔍</span><span>Поиск</span></button>
+    <button class="mb-item" data-act="wish"><span class="mb-ic">♡</span><span>Избранное</span><span class="mb-badge" id="barWishCount">0</span></button>
+    <button class="mb-item" data-act="cart"><span class="mb-ic">🛍️</span><span>Корзина</span><span class="mb-badge" id="barCartCount">0</span></button>
+  </nav>
+
   <script src="js/store.js"></script>
   <script src="js/shop.js"></script>
+  <script>
+    /* Нижняя панель: переадресуем тапы на уже существующие кнопки шапки
+       и зеркалим счётчики корзины/избранного — без вмешательства в shop.js. */
+    (function () {
+      var bar = document.getElementById('mobileBar');
+      if (!bar) return;
+      bar.addEventListener('click', function (e) {
+        var item = e.target.closest('.mb-item');
+        if (!item) return;
+        var act = item.dataset.act;
+        if (act === 'home') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if (act === 'search') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          var s = document.getElementById('searchInput');
+          setTimeout(function () { if (s) s.focus(); }, 360);
+        } else if (act === 'wish') {
+          var w = document.getElementById('wishBtn'); if (w) w.click();
+        } else if (act === 'cart') {
+          var c = document.getElementById('cartBtn'); if (c) c.click();
+        }
+      });
+      function mirror(srcId, dstId) {
+        var src = document.getElementById(srcId), dst = document.getElementById(dstId);
+        if (!src || !dst) return;
+        var apply = function () {
+          dst.textContent = src.textContent;
+          dst.classList.toggle('show', src.classList.contains('show'));
+        };
+        apply();
+        new MutationObserver(apply).observe(src, {
+          childList: true, characterData: true, subtree: true,
+          attributes: true, attributeFilter: ['class']
+        });
+      }
+      mirror('cartCount', 'barCartCount');
+      mirror('wishCount', 'barWishCount');
+    })();
+  </script>
 </body>
 </html>
