@@ -1,5 +1,24 @@
 [
   {
+    "id": "p1783251317238",
+    "name": "Anua",
+    "brand": "Anua",
+    "category": "Уход за лицом",
+    "subcategory": "Солнцезащита (SPF)",
+    "price": 50,
+    "oldPrice": 50,
+    "rating": 5,
+    "reviews": 1,
+    "emoji": "🧴",
+    "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3290-1783251314851-3828.jpg"
+    ],
+    "badge": "",
+    "description": "Anua stick",
+    "stock": 1
+  },
+  {
     "id": "p1783251154212",
     "name": "jvjvjvhj",
     "brand": "jghhjhg",
