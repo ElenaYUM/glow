@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLOW — информация: доставка, оплата, возврат, FAQ</title>
+  <meta name="description" content="GLOW — доставка и оплата, возврат и обмен, программа лояльности, подарочные карты, ответы на частые вопросы и контакты." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%231b1b1d'/><text x='50' y='70' font-size='54' text-anchor='middle' fill='white' font-family='Georgia'>G</text></svg>" />
+  <style>
+    .info-top { background: var(--lavender); border-bottom: 1px solid var(--line); }
+    .info-top .container { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; }
+    .info-top .logo { text-decoration: none; }
+    .info-top .back { font-weight: 700; font-size: .9rem; color: var(--ink); text-decoration: none; padding: .55rem 1rem; border: 1px solid var(--line-2); border-radius: var(--radius-pill); background: #fff; transition: .2s; }
+    .info-top .back:hover { border-color: var(--ink); }
+    .info-hero { text-align: center; padding: 2.6rem 0 1.4rem; }
+    .info-hero h1 { font-size: 2rem; font-weight: 800; letter-spacing: -.02em; }
+    .info-hero p { color: var(--muted); margin-top: .5rem; }
+    .info-wrap { display: grid; grid-template-columns: 240px 1fr; gap: 2.4rem; align-items: start; padding-bottom: 3.5rem; }
+    .info-toc { position: sticky; top: 1.2rem; display: flex; flex-direction: column; gap: .2rem; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem; }
+    .info-toc a { text-decoration: none; color: var(--ink-2); font-size: .9rem; font-weight: 600; padding: .5rem .7rem; border-radius: var(--radius-sm); transition: .15s; }
+    .info-toc a:hover { background: var(--bg-soft); color: var(--ink); }
+    .info-body { display: flex; flex-direction: column; gap: 1.2rem; }
+    .info-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.6rem 1.8rem; scroll-margin-top: 1.2rem; }
+    .info-card h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: .8rem; display: flex; align-items: center; gap: .5rem; }
+    .info-card h2 .e { font-size: 1.3rem; }
+    .info-card p { color: var(--ink-2); line-height: 1.65; margin-bottom: .7rem; }
+    .info-card ul { padding-left: 1.1rem; display: flex; flex-direction: column; gap: .45rem; margin-bottom: .5rem; }
+    .info-card li { color: var(--ink-2); line-height: 1.55; }
+    .info-card b { color: var(--ink); }
+    .faq-q { font-weight: 700; color: var(--ink); margin: 1rem 0 .3rem; }
+    .info-note { font-size: .82rem; color: var(--muted); margin-top: .4rem; }
+    @media (max-width: 860px) {
+      .info-wrap { grid-template-columns: 1fr; gap: 1.2rem; }
+      .info-toc { position: static; flex-flow: row wrap; }
+      .info-toc a { flex: 1 1 auto; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- СЛУЖЕБНАЯ ПОЛОСА -->
+  <div class="topbar">
+    <div class="container">
+      <div class="left">
+        <span><b>−10%</b> на первый заказ</span>
+        <span class="hide-sm">Бесплатная доставка на заказы от 1 000 Br</span>
+      </div>
+      <div class="right">
+        <a href="tel:+375257940720">📞 +375 (25) 794-07-20</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ШАПКА -->
+  <header class="info-top">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <span class="logo-text">GL<span class="o">O<i class="spark">✦</i></span>W</span>
+      </a>
+      <a href="index.html" class="back">← в магазин</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="info-hero">
+      <h1>Покупателям</h1>
+      <p>Доставка и оплата, возврат, программа лояльности и ответы на частые вопросы</p>
+    </div>
+
+    <div class="info-wrap">
+      <!-- ОГЛАВЛЕНИЕ -->
+      <nav class="info-toc">
+        <a href="#delivery">🚚 Оплата и доставка</a>
+        <a href="#howto">🛒 Как заказать</a>
+        <a href="#returns">↩️ Возврат и обмен</a>
+        <a href="#loyalty">💛 Программа лояльности</a>
+        <a href="#giftcards">🎁 Подарочные карты</a>
+        <a href="#faq">❓ Частые вопросы</a>
+        <a href="#about">✨ О компании</a>
+        <a href="#careers">💼 Вакансии</a>
+        <a href="#partners">🤝 Партнёрам</a>
+        <a href="#offer">📄 Договор оферты</a>
+        <a href="#privacy">🔒 Конфиденциальность</a>
+      </nav>
+
+      <!-- РАЗДЕЛЫ -->
+      <div class="info-body">
+        <section class="info-card" id="delivery">
+          <h2><span class="e">🚚</span> Оплата и доставка</h2>
+          <p>Доставляем по всей стране. Способ и срок зависят от вашего города:</p>
+          <ul>
+            <li><b>Курьер по Минску</b> — 1–2 дня, <b>5 Br</b> (бесплатно от 1 000 Br).</li>
+            <li><b>Почтой / службой доставки</b> по стране — 2–5 дней, тариф перевозчика.</li>
+            <li><b>Самовывоз</b> из пункта выдачи — по договорённости с менеджером.</li>
+          </ul>
+          <p>Оплата удобным способом: банковской картой <b>VISA / Mastercard / МИР</b>, через <b>СБП</b>, а также наличными при получении.</p>
+          <p class="info-note">Заказы от 1 000 Br — доставка по Минску бесплатно.</p>
+        </section>
+
+        <section class="info-card" id="howto">
+          <h2><span class="e">🛒</span> Как заказать</h2>
+          <ul>
+            <li>Выберите товары и добавьте их в корзину кнопкой «+».</li>
+            <li>Откройте корзину и нажмите «Оформить заказ».</li>
+            <li>Заполните имя, телефон, город и адрес, выберите способ доставки.</li>
+            <li>Подтвердите заказ — мы свяжемся с вами для уточнения деталей.</li>
+          </ul>
+          <p>Есть промокод? Введите его в корзине при оформлении — скидка применится автоматически.</p>
+        </section>
+
+        <section class="info-card" id="returns">
+          <h2><span class="e">↩️</span> Возврат и обмен</h2>
+          <p>Мы дорожим доверием и хотим, чтобы покупка радовала. Если что-то не подошло:</p>
+          <ul>
+            <li>Товар надлежащего качества можно вернуть в течение <b>14 дней</b>, если он не был в использовании и сохранены упаковка и товарный вид.</li>
+            <li>Косметика и парфюмерия с вскрытой защитной плёнкой возврату не подлежат (требование гигиены).</li>
+            <li>Если пришёл брак или не тот товар — сообщите нам, мы заменим или вернём деньги за наш счёт.</li>
+          </ul>
+          <p>Для возврата свяжитесь с нами по телефону или напишите менеджеру — подскажем, как всё оформить.</p>
+        </section>
+
+        <section class="info-card" id="loyalty">
+          <h2><span class="e">💛</span> Программа лояльности</h2>
+          <p>Постоянным покупателям — приятные бонусы:</p>
+          <ul>
+            <li><b>−10%</b> на первый заказ по промокоду <b>GLOW10</b>.</li>
+            <li>Кэшбэк баллами с каждой покупки, которыми можно оплатить часть следующего заказа.</li>
+            <li>Ранний доступ к распродажам и подарки-сэмплы к заказам.</li>
+          </ul>
+        </section>
+
+        <section class="info-card" id="giftcards">
+          <h2><span class="e">🎁</span> Подарочные карты</h2>
+          <p>Не знаете, что подарить? Электронный сертификат GLOW — беспроигрышный вариант. Получатель сам выберет любимый уход.</p>
+          <ul>
+            <li>Номинал — на любую сумму.</li>
+            <li>Приходит на e-mail, действует 12 месяцев.</li>
+            <li>Оформить можно в каталоге в разделе «Сертификаты».</li>
+          </ul>
+        </section>
+
+        <section class="info-card" id="faq">
+          <h2><span class="e">❓</span> Частые вопросы</h2>
+          <div class="faq-q">Вся косметика оригинальная?</div>
+          <p>Да. Мы работаем с проверенными поставщиками и продаём только оригинальную продукцию корейских брендов.</p>
+          <div class="faq-q">Как понять, какой уход мне подойдёт?</div>
+          <p>Напишите нам — менеджер поможет подобрать средства под ваш тип кожи и задачи. Также загляните в наш блог.</p>
+          <div class="faq-q">Сколько идёт доставка?</div>
+          <p>По Минску — 1–2 дня, по стране — 2–5 дней в зависимости от перевозчика.</p>
+          <div class="faq-q">Можно ли вернуть товар?</div>
+          <p>Да, товар надлежащего качества — в течение 14 дней при сохранении упаковки. Подробности в разделе «Возврат и обмен».</p>
+        </section>
+
+        <section class="info-card" id="about">
+          <h2><span class="e">✨</span> О компании</h2>
+          <p>GLOW — интернет-магазин корейской косметики. Мы собрали бестселлеры K-beauty: уход за лицом, волосами и телом, декоративную косметику и готовые наборы.</p>
+          <p>Наша миссия — сделать качественный корейский уход доступным и понятным. Помогаем подобрать средства, честно рассказываем о составах и радуем быстрой доставкой.</p>
+        </section>
+
+        <section class="info-card" id="careers">
+          <h2><span class="e">💼</span> Вакансии</h2>
+          <p>Мы растём и всегда рады специалистам, влюблённым в бьюти: консультантам, контент-менеджерам, работникам склада.</p>
+          <p>Присылайте резюме по телефону-мессенджеру <a href="tel:+375257940720">+375 (25) 794-07-20</a> — расскажем об открытых позициях.</p>
+        </section>
+
+        <section class="info-card" id="partners">
+          <h2><span class="e">🤝</span> Партнёрская программа</h2>
+          <p>Ведёте блог о красоте или у вас бьюти-сообщество? Приглашаем к сотрудничеству: индивидуальные условия, промокоды для подписчиков и вознаграждение за заказы.</p>
+          <p>Напишите нам — обсудим формат.</p>
+        </section>
+
+        <section class="info-card" id="offer">
+          <h2><span class="e">📄</span> Договор оферты</h2>
+          <p>Оформляя заказ на сайте GLOW, покупатель соглашается с условиями публичной оферты: описанием товаров, ценами, порядком оплаты, доставки и возврата, изложенными на этой странице.</p>
+          <p>Продавец обязуется передать товар надлежащего качества, покупатель — принять и оплатить заказ. Полная версия договора предоставляется по запросу.</p>
+        </section>
+
+        <section class="info-card" id="privacy">
+          <h2><span class="e">🔒</span> Конфиденциальность</h2>
+          <p>Мы бережно относимся к вашим данным. Имя, телефон и адрес используются исключительно для обработки и доставки заказа и не передаются третьим лицам, кроме служб доставки.</p>
+          <p>Оставляя заказ, вы даёте согласие на обработку персональных данных. Отозвать согласие можно, связавшись с нами.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- ФУТЕР -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="logo-text">GL<span class="o">O<i class="spark">✦</i></span>W</span>
+          <div class="f-contact">
+            <a href="tel:+375257940720" class="f-phone">+375 (25) 794-07-20</a>
+            <span class="f-mail"><small>служба поддержки</small></span>
+          </div>
+          <div class="legal">
+            <a href="#offer">Договор оферты</a>
+            <a href="#privacy">Конфиденциальность</a>
+          </div>
+          <div class="pay"><span>VISA</span><span>MC</span><span>МИР</span><span>SBP</span></div>
+        </div>
+        <div>
+          <h5>Магазин</h5>
+          <ul>
+            <li><a href="index.html#catalog">Каталог</a></li>
+            <li><a href="index.html#new">Новинки</a></li>
+            <li><a href="index.html#sale" class="pink">Скидки до 50%</a></li>
+            <li><a href="index.html#blog">Блог</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>О нас</h5>
+          <ul>
+            <li><a href="#about">О компании</a></li>
+            <li><a href="index.html#contact">Контакты</a></li>
+            <li><a href="#careers">Вакансии</a></li>
+            <li><a href="#partners">Партнёрская программа</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Клиентам</h5>
+          <ul>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#howto">Как заказать</a></li>
+            <li><a href="#delivery">Оплата и доставка</a></li>
+            <li><a href="#returns">Возврат</a></li>
+            <li><a href="#loyalty">Программа лояльности</a></li>
+            <li><a href="#giftcards">Подарочные карты</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 GLOW. Все права защищены.</span>
+        <span>Korean beauty · доставка по всей стране</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
