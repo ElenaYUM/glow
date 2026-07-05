@@ -91,6 +91,29 @@
 .btn-mini { font-size: .82rem; color: var(--pink); align-self: flex-start; padding: .2rem 0; }
 .btn-mini:hover { text-decoration: underline; }
 
+/* галерея фотографий товара */
+.photo-grid { display: flex; flex-wrap: wrap; gap: .6rem; margin: .6rem 0 .8rem; }
+.photo-empty { width: 100%; font-size: .82rem; color: var(--muted); background: var(--bg-soft); border: 1px dashed var(--line-2); border-radius: var(--radius-sm); padding: .9rem 1rem; text-align: center; }
+.photo-cell { position: relative; width: 88px; height: 88px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--line-2); background: var(--bg-soft); cursor: grab; }
+.photo-cell:active { cursor: grabbing; }
+.photo-cell img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.photo-cell.dragging { opacity: .4; }
+.photo-cell.drop-target { border-color: var(--red); box-shadow: 0 0 0 2px var(--red-soft); }
+.photo-cell .photo-main { position: absolute; top: 4px; left: 4px; font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #fff; background: rgba(27,27,29,.72); padding: .12rem .4rem; border-radius: 6px; }
+.photo-cell .photo-ops { position: absolute; inset: auto 0 0 0; display: flex; gap: 2px; padding: 3px; background: linear-gradient(0deg, rgba(0,0,0,.5), transparent); opacity: 0; transition: opacity .2s; }
+.photo-cell:hover .photo-ops { opacity: 1; }
+.photo-cell .pop { flex: 1; height: 22px; border-radius: 6px; border: none; background: rgba(255,255,255,.92); font-size: .72rem; color: var(--ink); cursor: pointer; transition: .15s; }
+.photo-cell .pop:hover:not(:disabled) { background: #fff; }
+.photo-cell .pop:disabled { opacity: .35; cursor: default; }
+.photo-cell .pop.del { color: var(--pink); font-weight: 700; }
+.photo-add { display: flex; }
+.photo-url-row { display: flex; gap: .5rem; align-items: center; margin-top: .6rem; }
+.photo-url-row input { flex: 1; padding: .7rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--line-2); font-family: inherit; font-size: .9rem; outline: none; transition: border-color .2s; }
+.photo-url-row input:focus { border-color: var(--red); }
+.photo-url-row .btn-mini { flex: none; white-space: nowrap; align-self: center; }
+.p-row .pic { position: relative; overflow: hidden; }
+.p-row .pic .pic-count { position: absolute; bottom: 2px; right: 2px; font-size: .6rem; font-weight: 700; color: #fff; background: rgba(27,27,29,.7); padding: .05rem .3rem; border-radius: 5px; }
+
 /* список слайдов */
 .slide-row .pic { background: var(--bg-soft) center/cover no-repeat; }
 

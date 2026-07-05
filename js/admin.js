@@ -121,9 +121,13 @@
       const old = p.oldPrice > p.price ? `<span class="old">${GLOW.formatPrice(p.oldPrice)}</span>` : "";
       const badge = p.badge === "BESTSELLER" ? " · ХИТ" : p.badge === "NEW" ? " · NEW" : "";
       const sub = p.subcategory ? ` › ${p.subcategory}` : "";
+      const photos = Array.isArray(p.photos) ? p.photos.filter(Boolean) : [];
+      const pic = photos.length
+        ? `<div class="pic" style="background-image:url('${photos[0]}');background-size:cover;background-position:center">${photos.length > 1 ? `<span class="pic-count">${photos.length}</span>` : ""}</div>`
+        : `<div class="pic" style="background:${p.gradient}">${p.emoji}</div>`;
       return `
       <div class="p-row" data-id="${p.id}">
-        <div class="pic" style="background:${p.gradient}">${p.emoji}</div>
+        ${pic}
         <div class="nm">
           <b>${p.name}</b>
           <span>${p.brand}</span>
@@ -161,6 +165,8 @@
     $("#f_desc").value = p.description || "";
     $("#f_badge").value = p.badge || "";
     selectPicker(p.emoji, p.gradient);
+    currentPhotos = Array.isArray(p.photos) ? p.photos.slice() : [];
+    renderPhotoGrid();
     $("#formTitle").textContent = "Редактирование";
     $("#submitBtn").textContent = "Сохранить изменения";
     $("#cancelEdit").style.display = "block";
@@ -172,12 +178,77 @@
     renderCatSelect();
     renderSubSelect($("#f_category").value);
     selectPicker(EMOJIS[0], GRADS[0]);
+    currentPhotos = [];
+    renderPhotoGrid();
     $("#formTitle").textContent = "Новый товар";
     $("#submitBtn").textContent = "Добавить товар";
     $("#cancelEdit").style.display = "none";
   }
 
   function renderAll() { renderStats(); renderCatSelect(); renderList($("#search").value); }
+
+  /* ---------- Фотографии товара (галерея) ---------- */
+  let currentPhotos = [];   // редактируемый список фото текущего товара
+  let dragFrom = null;      // индекс перетаскиваемого фото
+
+  function renderPhotoGrid() {
+    const grid = $("#photoGrid");
+    if (!grid) return;
+    if (!currentPhotos.length) {
+      grid.innerHTML = `<div class="photo-empty">Фото ещё нет. Пока в каталоге показывается иконка — загрузите фото или добавьте ссылку.</div>`;
+      return;
+    }
+    const last = currentPhotos.length - 1;
+    grid.innerHTML = currentPhotos.map((src, i) => `
+      <div class="photo-cell" draggable="true" data-i="${i}">
+        <img src="${src}" alt="фото ${i + 1}" />
+        ${i === 0 ? `<span class="photo-main">главное</span>` : ""}
+        <div class="photo-ops">
+          <button type="button" class="pop mv" data-i="${i}" data-dir="-1" title="Левее" ${i === 0 ? "disabled" : ""}>◀</button>
+          <button type="button" class="pop mv" data-i="${i}" data-dir="1" title="Правее" ${i === last ? "disabled" : ""}>▶</button>
+          <button type="button" class="pop del" data-i="${i}" title="Удалить">✕</button>
+        </div>
+      </div>`).join("");
+    $$(".mv", grid).forEach((b) => b.addEventListener("click", () => movePhoto(+b.dataset.i, +b.dataset.dir)));
+    $$(".photo-cell .del", grid).forEach((b) => b.addEventListener("click", () => { currentPhotos.splice(+b.dataset.i, 1); renderPhotoGrid(); }));
+    bindPhotoDnD(grid);
+  }
+  function movePhoto(i, dir) {
+    const j = i + dir;
+    if (j < 0 || j >= currentPhotos.length) return;
+    [currentPhotos[i], currentPhotos[j]] = [currentPhotos[j], currentPhotos[i]];
+    renderPhotoGrid();
+  }
+  function bindPhotoDnD(grid) {
+    $$(".photo-cell", grid).forEach((cell) => {
+      cell.addEventListener("dragstart", () => { dragFrom = +cell.dataset.i; cell.classList.add("dragging"); });
+      cell.addEventListener("dragend", () => { dragFrom = null; $$(".photo-cell", grid).forEach((c) => c.classList.remove("dragging", "drop-target")); });
+      cell.addEventListener("dragover", (e) => { e.preventDefault(); cell.classList.add("drop-target"); });
+      cell.addEventListener("dragleave", () => cell.classList.remove("drop-target"));
+      cell.addEventListener("drop", (e) => {
+        e.preventDefault(); cell.classList.remove("drop-target");
+        const to = +cell.dataset.i;
+        if (dragFrom === null || dragFrom === to) return;
+        const [moved] = currentPhotos.splice(dragFrom, 1);
+        currentPhotos.splice(to, 0, moved);
+        renderPhotoGrid();
+      });
+    });
+  }
+  function initPhotos() {
+    renderPhotoGrid();
+    $("#f_photoFile").addEventListener("change", (e) => {
+      [...e.target.files].forEach((f) => readImageResized(f, 1000, (url) => { currentPhotos.push(url); renderPhotoGrid(); }));
+      e.target.value = "";
+    });
+    const addUrl = () => {
+      const v = $("#f_photoUrl").value.trim();
+      if (!v) return;
+      currentPhotos.push(v); $("#f_photoUrl").value = ""; renderPhotoGrid();
+    };
+    $("#f_photoUrlAdd").addEventListener("click", addUrl);
+    $("#f_photoUrl").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); addUrl(); } });
+  }
 
   /* ============================================================
      УПРАВЛЕНИЕ САЙТОМ: вкладки, фото, слайдер, категории
@@ -553,6 +624,7 @@
     renderPickers();
     renderCatSelect();
     selectPicker(EMOJIS[0], GRADS[0]);
+    initPhotos();
     $("#f_category").addEventListener("change", () => renderSubSelect($("#f_category").value));
     initTabs();
     initSlides();
@@ -587,10 +659,13 @@
         badge: $("#f_badge").value,
         emoji: $("#f_emoji").value,
         gradient: $("#f_gradient").value,
+        photos: currentPhotos.slice(),
       };
       const editId = $("#editId").value;
-      if (editId) { GLOW.updateProduct(editId, data); toast("Изменения сохранены ✨"); }
-      else { GLOW.addProduct(data); toast("Товар добавлен в каталог 🎉"); }
+      try {
+        if (editId) { GLOW.updateProduct(editId, data); toast("Изменения сохранены ✨"); }
+        else { GLOW.addProduct(data); toast("Товар добавлен в каталог 🎉"); }
+      } catch (err) { toast("Не удалось сохранить — фотографий слишком много или они слишком большие"); return; }
       resetForm();
       renderAll();
       pushNow(["products"], "GLOW: товары");

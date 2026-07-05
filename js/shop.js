@@ -38,12 +38,14 @@
     const priceBlock = disc > 0
       ? `<span class="price sale">${GLOW.formatPrice(p.price)}</span><span class="old-price">${GLOW.formatPrice(p.oldPrice)}</span>`
       : `<span class="price">${GLOW.formatPrice(p.price)}</span>`;
+    const photo = (p.photos && p.photos.length) ? p.photos[0] : "";
+    const mediaStyle = photo ? `background-image:url('${photo}');background-size:cover;background-position:center` : `background:${p.gradient}`;
     return `
       <article class="card reveal ${out ? "stock-out" : ""}" data-id="${p.id}">
-        <div class="card-media" style="background:${p.gradient}">
+        <div class="card-media ${photo ? "has-photo" : ""}" style="${mediaStyle}">
           <div class="badges">${badges.join("")}</div>
           <button class="wish ${fav ? "on" : ""}" data-wish="${p.id}" title="В избранное">${fav ? "♥" : "♡"}</button>
-          <span class="ico">${p.emoji}</span>
+          ${photo ? "" : `<span class="ico">${p.emoji}</span>`}
         </div>
         <div class="card-body">
           <div class="rating"><span class="stars">${stars(p.rating)}</span><span>${p.rating.toFixed(1)}</span><span class="rev">· ${p.reviews}</span></div>
@@ -241,9 +243,13 @@
       : `<div class="ship-bar">До бесплатной доставки осталось <b>${GLOW.formatPrice(ship.remain)}</b><div class="bar"><i style="width:${ship.progress * 100}%"></i></div></div>`;
     body.innerHTML = shipBar + items.map((p) => {
       const old = p.oldPrice > p.price ? `<small>${GLOW.formatPrice(p.oldPrice * p.qty)}</small>` : "";
+      const photo = (p.photos && p.photos.length) ? p.photos[0] : "";
+      const thumb = photo
+        ? `<div class="thumb" style="background-image:url('${photo}');background-size:cover;background-position:center"></div>`
+        : `<div class="thumb" style="background:${p.gradient}">${p.emoji}</div>`;
       return `
       <div class="cart-item" data-id="${p.id}">
-        <div class="thumb" style="background:${p.gradient}">${p.emoji}</div>
+        ${thumb}
         <div class="info">
           <span class="br">${p.brand}</span><b>${p.name}</b>
           <div class="pr">${GLOW.formatPrice(p.price * p.qty)} ${old}</div>
@@ -275,9 +281,16 @@
     const priceBlock = disc > 0
       ? `<span class="price sale">${GLOW.formatPrice(p.price)}</span><span class="old-price">${GLOW.formatPrice(p.oldPrice)}</span><span class="tag sale">−${disc}%</span>`
       : `<span class="price">${GLOW.formatPrice(p.price)}</span>`;
+    const photos = (p.photos && p.photos.length) ? p.photos : [];
+    const media = photos.length
+      ? `<div class="qv-media has-photo">
+          <img class="qv-photo" id="qvPhoto" src="${photos[0]}" alt="${escapeHTML(p.name)}" />
+          ${photos.length > 1 ? `<div class="qv-thumbs" id="qvThumbs">${photos.map((src, i) => `<button class="qv-thumb ${i === 0 ? "on" : ""}" data-src="${src}"><img src="${src}" alt="" /></button>`).join("")}</div>` : ""}
+        </div>`
+      : `<div class="qv-media" style="background:${p.gradient}"><span>${p.emoji}</span></div>`;
     $("#quickModal .modal-card").innerHTML = `
       <button class="qv-close" id="qvClose">✕</button>
-      <div class="qv-media" style="background:${p.gradient}"><span>${p.emoji}</span></div>
+      ${media}
       <div class="qv-info">
         <span class="card-brand">${p.brand}</span>
         <h3>${p.name}</h3>
@@ -298,6 +311,11 @@
     $("#qvAdd").onclick = () => { if (p.stock <= 0) return; GLOW.addToCart(p.id, qty); updateCartCount(true); closeQuickView(); openCart(); toast(`«${p.name}» ×${qty} в корзине`); };
     $("#qvClose").onclick = closeQuickView;
     $("#quickModal [data-wish]").onclick = (e) => { toggleWish(e.currentTarget.dataset.wish); };
+    $$("#qvThumbs .qv-thumb").forEach((t) => t.addEventListener("click", () => {
+      $("#qvPhoto").src = t.dataset.src;
+      $$("#qvThumbs .qv-thumb").forEach((x) => x.classList.remove("on"));
+      t.classList.add("on");
+    }));
   }
   function closeQuickView() { $("#quickModal").classList.remove("open"); document.body.style.overflow = ""; }
 

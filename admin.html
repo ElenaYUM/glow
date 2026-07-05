@@ -109,6 +109,18 @@
                 <input type="hidden" id="f_gradient" />
                 <div class="grad-pick" id="gradPick"></div>
               </div>
+              <div class="field">
+                <label>Фотографии товара</label>
+                <div class="hint">Первое фото — главное, оно показывается в каталоге. Перетаскивайте фото или используйте стрелки, чтобы менять порядок.</div>
+                <div class="photo-grid" id="photoGrid"></div>
+                <div class="photo-add">
+                  <label class="btn btn-line file-btn">📁 Загрузить фото<input type="file" id="f_photoFile" accept="image/*" multiple hidden /></label>
+                </div>
+                <div class="photo-url-row">
+                  <input type="url" id="f_photoUrl" placeholder="или ссылка на фото https://…" />
+                  <button type="button" class="btn-mini" id="f_photoUrlAdd">+ Добавить</button>
+                </div>
+              </div>
               <button class="btn btn-red full-btn" type="submit" id="submitBtn">Добавить товар</button>
               <button class="btn btn-line full-btn" type="button" id="cancelEdit" style="display:none;margin-top:.6rem">Отменить редактирование</button>
             </form>

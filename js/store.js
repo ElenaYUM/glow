@@ -187,6 +187,7 @@ const GLOW = (() => {
       price: Number(d.price) || 0, oldPrice: Number(d.oldPrice) || 0,
       rating: Number(d.rating) || 5, reviews: Number(d.reviews) || 0,
       emoji: d.emoji || "🧴", gradient: d.gradient || TONES.stone,
+      photos: Array.isArray(d.photos) ? d.photos.filter(Boolean) : [],
       badge: d.badge || "", description: d.description || "", stock: Number(d.stock) || 0,
     });
     saveProducts(products);
@@ -199,6 +200,7 @@ const GLOW = (() => {
       subcategory: d.subcategory || "",
       price: Number(d.price), oldPrice: Number(d.oldPrice) || 0,
       rating: Number(d.rating) || products[i].rating, reviews: Number(d.reviews) || 0,
+      photos: Array.isArray(d.photos) ? d.photos.filter(Boolean) : (products[i].photos || []),
       stock: Number(d.stock) };
     saveProducts(products);
     return products[i];
