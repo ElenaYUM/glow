@@ -1,6 +1,6 @@
 [
   {
-    "id": "p1783251317238",
+    "id": "p1783251439777",
     "name": "Anua",
     "brand": "Anua",
     "category": "Уход за лицом",
@@ -8,11 +8,11 @@
     "price": 50,
     "oldPrice": 50,
     "rating": 5,
-    "reviews": 1,
+    "reviews": 5,
     "emoji": "🧴",
     "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
     "photos": [
-      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3290-1783251314851-3828.jpg"
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3290-1783251437454-4837.jpg"
     ],
     "badge": "",
     "description": "Anua stick",
