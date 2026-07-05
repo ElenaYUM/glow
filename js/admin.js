@@ -188,8 +188,10 @@
   function renderAll() { renderStats(); renderCatSelect(); renderList($("#search").value); }
 
   /* ---------- Фотографии товара (галерея) ---------- */
-  let currentPhotos = [];   // редактируемый список фото текущего товара
+  let currentPhotos = [];   // редактируемый список фото текущего товара (короткие URL)
   let dragFrom = null;      // индекс перетаскиваемого фото
+  let uploadSeq = 0;        // счётчик заглушек «идёт загрузка»
+  const isUploading = (s) => typeof s === "string" && s.startsWith("__uploading__");
 
   function renderPhotoGrid() {
     const grid = $("#photoGrid");
@@ -199,7 +201,11 @@
       return;
     }
     const last = currentPhotos.length - 1;
-    grid.innerHTML = currentPhotos.map((src, i) => `
+    grid.innerHTML = currentPhotos.map((src, i) => {
+      if (isUploading(src)) {
+        return `<div class="photo-cell uploading"><div class="photo-loading"><span class="spin"></span>загрузка…</div></div>`;
+      }
+      return `
       <div class="photo-cell" draggable="true" data-i="${i}">
         <img src="${src}" alt="фото ${i + 1}" />
         ${i === 0 ? `<span class="photo-main">главное</span>` : ""}
@@ -208,10 +214,33 @@
           <button type="button" class="pop mv" data-i="${i}" data-dir="1" title="Правее" ${i === last ? "disabled" : ""}>▶</button>
           <button type="button" class="pop del" data-i="${i}" title="Удалить">✕</button>
         </div>
-      </div>`).join("");
+      </div>`;
+    }).join("");
     $$(".mv", grid).forEach((b) => b.addEventListener("click", () => movePhoto(+b.dataset.i, +b.dataset.dir)));
     $$(".photo-cell .del", grid).forEach((b) => b.addEventListener("click", () => { currentPhotos.splice(+b.dataset.i, 1); renderPhotoGrid(); }));
     bindPhotoDnD(grid);
+  }
+  // Залить фото в репозиторий и подставить короткую ссылку (вместо тяжёлого base64).
+  async function addPhotoFromDataUrl(dataUrl, nameHint) {
+    if (!GLOW.hasToken()) {
+      // без токена — держим локально, только на этом устройстве
+      currentPhotos.push(dataUrl); renderPhotoGrid();
+      toast("⚠️ Фото сохранится только на этом устройстве. Подключите GitHub во вкладке «🔗 Подключение».");
+      return;
+    }
+    const ph = "__uploading__" + (uploadSeq++);
+    currentPhotos.push(ph); renderPhotoGrid();
+    try {
+      const url = await GLOW.ghUploadImage(dataUrl, nameHint);
+      const i = currentPhotos.indexOf(ph);
+      if (i !== -1) currentPhotos[i] = url; else currentPhotos.push(url);
+      renderPhotoGrid();
+    } catch (err) {
+      const i = currentPhotos.indexOf(ph);
+      if (i !== -1) currentPhotos.splice(i, 1);
+      renderPhotoGrid();
+      toast("Не удалось загрузить фото: " + err.message);
+    }
   }
   function movePhoto(i, dir) {
     const j = i + dir;
@@ -238,7 +267,7 @@
   function initPhotos() {
     renderPhotoGrid();
     $("#f_photoFile").addEventListener("change", (e) => {
-      [...e.target.files].forEach((f) => readImageResized(f, 1000, (url) => { currentPhotos.push(url); renderPhotoGrid(); }));
+      [...e.target.files].forEach((f) => readImageResized(f, 1000, (dataUrl) => addPhotoFromDataUrl(dataUrl, f.name)));
       e.target.value = "";
     });
     const addUrl = () => {
@@ -645,6 +674,7 @@
 
     $("#productForm").addEventListener("submit", (e) => {
       e.preventDefault();
+      if (currentPhotos.some(isUploading)) { toast("Подождите — фото ещё загружаются…"); return; }
       const data = {
         name: $("#f_name").value.trim(),
         brand: $("#f_brand").value.trim(),
@@ -659,7 +689,7 @@
         badge: $("#f_badge").value,
         emoji: $("#f_emoji").value,
         gradient: $("#f_gradient").value,
-        photos: currentPhotos.slice(),
+        photos: currentPhotos.filter((s) => s && !isUploading(s)),
       };
       const editId = $("#editId").value;
       try {

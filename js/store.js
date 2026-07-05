@@ -158,6 +158,23 @@ const GLOW = (() => {
     for (const ds of datasets) await ghPush(ds, message);
     return true;
   }
+  // залить картинку (data:URL) отдельным файлом в data/img/ и вернуть прямую ссылку.
+  // Так фото не раздувает JSON и localStorage — в данных хранится только короткий URL.
+  async function ghUploadImage(dataUrl, nameHint) {
+    if (!hasToken()) throw new Error("Не подключён GitHub-токен");
+    const m = /^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/.exec(dataUrl || "");
+    if (!m) throw new Error("Неверный формат изображения");
+    const ext = (m[1].split("/")[1] || "jpg").replace("jpeg", "jpg").replace("svg+xml", "svg");
+    const content = m[2];
+    const c = ghConfig();
+    const safe = (nameHint || "photo").toLowerCase().replace(/\.[a-z0-9]+$/, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 24) || "photo";
+    const path = `data/img/${safe}-${Date.now()}-${Math.floor(Math.random() * 10000)}.${ext}`;
+    const api = `https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`;
+    const body = { message: `GLOW: фото ${path}`, content, branch: c.branch };
+    const put = await fetch(api, { method: "PUT", headers: ghHeaders(), body: JSON.stringify(body) });
+    if (!put.ok) { const e = await put.json().catch(() => ({})); throw new Error(e.message || ("HTTP " + put.status)); }
+    return `https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/${path}`;
+  }
   // проверить токен и доступ к репозиторию
   async function ghTest() {
     if (!hasToken()) throw new Error("Введите токен");
@@ -450,7 +467,7 @@ const GLOW = (() => {
     getBlog, getPost, addPost, updatePost, deletePost, resetBlog,
     login, isAdmin, logout, formatPrice,
     // GitHub-хранилище
-    boot, pullAll, ghPull, ghPush, ghPushMany, ghTest,
+    boot, pullAll, ghPull, ghPush, ghPushMany, ghUploadImage, ghTest,
     ghConfig, setGhConfig, ghToken, setGhToken, hasToken,
   };
 })();
