@@ -175,6 +175,22 @@ const GLOW = (() => {
     if (!put.ok) { const e = await put.json().catch(() => ({})); throw new Error(e.message || ("HTTP " + put.status)); }
     return `https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/${path}`;
   }
+  // настоящая проверка права записи: пробуем создать и тут же удалить крошечный файл.
+  // permissions.push из ответа репозитория отражает роль ВЛАДЕЛЬЦА, а не права токена,
+  // поэтому единственный честный способ — попробовать реально записать.
+  async function ghProbeWrite() {
+    const c = ghConfig();
+    const path = `data/.perm-check-${Date.now()}`;
+    const api = `https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`;
+    const put = await fetch(api, { method: "PUT", headers: ghHeaders(),
+      body: JSON.stringify({ message: "GLOW: проверка доступа на запись", content: b64("ok"), branch: c.branch }) });
+    if (put.status === 403 || put.status === 404) return false; // нет права записи
+    if (!put.ok) { const e = await put.json().catch(() => ({})); throw new Error(e.message || ("HTTP " + put.status)); }
+    const sha = (await put.json()).content.sha;
+    await fetch(api, { method: "DELETE", headers: ghHeaders(),
+      body: JSON.stringify({ message: "GLOW: проверка доступа (очистка)", sha, branch: c.branch }) }).catch(() => {});
+    return true;
+  }
   // проверить токен и доступ к репозиторию
   async function ghTest() {
     if (!hasToken()) throw new Error("Введите токен");
@@ -184,7 +200,8 @@ const GLOW = (() => {
     if (r.status === 404) throw new Error("Репозиторий не найден или нет доступа");
     if (!r.ok) throw new Error("HTTP " + r.status);
     const j = await r.json();
-    return { repo: j.full_name, canPush: !!(j.permissions && j.permissions.push) };
+    const canPush = await ghProbeWrite(); // честная проверка записи, а не роль владельца
+    return { repo: j.full_name, canPush };
   }
   // стартовая синхронизация витрины/админки
   async function boot() { try { await pullAll(); } catch { /* офлайн — работаем из кэша */ } }
