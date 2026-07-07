@@ -80,19 +80,22 @@
   },
   {
     "id": "p5",
-    "name": "AHA·BHA·PHA 30 Days Miracle Toner",
-    "brand": "Some By Mi",
+    "name": "Лифтинг-крем с пробиотиками и пептидами BIOHEAL BOH Probioderm 3D Lifting Cream",
+    "brand": "BIOHEAL BOH",
     "category": "Уход за лицом",
-    "subcategory": "Тонеры",
-    "price": 1390,
+    "subcategory": "Кремы для лица",
+    "price": 100,
     "oldPrice": 0,
     "rating": 4.6,
     "reviews": 97,
     "emoji": "✦",
     "gradient": "linear-gradient(160deg,#f0f0f1,#e3e4e6)",
     "badge": "",
-    "description": "Кислотный тонер против несовершенств.",
-    "stock": 22
+    "description": "Лифтинг-крем с пробиотиками и пептидами BIOHEAL BOH Probioderm 3D Lifting Cream укрепляет внеклеточный матрикс и уплотняет ткани, формирует овал лица и повышает тургор. Помогает в борьбе с возрастными изменениями, разглаживает заломы и сокращает глубину морщин. Глубоко питает, избавляет от сухости и шелушения, замедляет процессы старения.\n\nЗапатентованный комплекс Core V-uilder™ на основе протеогликанов активизирует синтез коллагеновых и эластиновых волокон, повышает тургор и упругость. Подтягивает кожу и препятствует птозу, предотвращает появление мимических морщин.",
+    "stock": 22,
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3291-1783424854951-5437.jpg"
+    ]
   },
   {
     "id": "p6",
