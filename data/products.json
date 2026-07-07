@@ -20,22 +20,23 @@
   },
   {
     "id": "p1783251154212",
-    "name": "jvjvjvhj",
-    "brand": "jghhjhg",
+    "name": "ROUND LAB birch juice moisturizing sunscreen",
+    "brand": "Round lab",
     "category": "Уход за лицом",
-    "subcategory": "Кремы для лица",
-    "price": 8888,
-    "oldPrice": 0,
+    "subcategory": "Солнцезащита (SPF)",
+    "price": 45,
+    "oldPrice": 55,
     "rating": 4,
     "reviews": 88,
     "emoji": "🧴",
     "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
     "photos": [
-      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/images-1783251137091-1723.jpg"
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3285-1783422309792-1437.jpg",
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3286-1783422328346-5220.jpg"
     ],
     "badge": "",
-    "description": "kjkjnjknjk",
-    "stock": 8
+    "description": "Солнцезащитный крем для лица нейтрализует негативное воздействие UVA- и UVB-лучей благодаря SPF 50+ PA++++ и дарит коже увлажнение. Березовый сок, богатый аминокислотами и минералами, делает кожу напитанной.   \n  \nГиалуроновая кислота насыщает достаточным количеством влаги, чтобы кожа оставалась увлажненной в течение всего дня. Витамин C дарит антиоксидантный эффект. Ниацинамид выравнивает тон. Освежающая формула, похожая на эссенцию, не оставляет белых следов.   \nПодходит для всех типов кожи, особенно обезвоженной жирной.",
+    "stock": 5
   },
   {
     "id": "p3",
