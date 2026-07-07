@@ -40,19 +40,24 @@
   },
   {
     "id": "p3",
-    "name": "Cream Skin Toner & Moisturizer",
-    "brand": "Laneige",
+    "name": "CELIMAX oil control солнцезащитный стик для лица",
+    "brand": "Celimax",
     "category": "Уход за лицом",
-    "subcategory": "Тонеры",
-    "price": 2390,
-    "oldPrice": 0,
+    "subcategory": "Солнцезащита (SPF)",
+    "price": 50,
+    "oldPrice": 60,
     "rating": 4.7,
     "reviews": 128,
     "emoji": "💧",
     "gradient": "linear-gradient(160deg,#eef2f3,#dde6e8)",
     "badge": "",
-    "description": "Тонер-молочко 2-в-1: увлажняет и смягчает кожу.",
-    "stock": 18
+    "description": "Солнцезащитный стик Celimax защищает кожу от воздействия солнечных лучей UVA и UVB. Средство с легкой, нелипкой текстурой создает невесомое, комфортное покрытие с бархатистым финишем и матирует кожу, помогая устранить жирный блеск.   \n  \nПродукт в удобном формате стика легко наносится на кожу и равномерно распределяется, оставляя ощущение свежести – и никакой липкости. Стик помогает визуально выровнять текстуру кожи и уменьшить видимость пор, придавая коже лица более гладкий, матовый вид.   \nПодходит для жирной и комбинированной кожи.",
+    "stock": 18,
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3287-1783422438485-1204.jpg",
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3289-1783422457640-9455.jpg",
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3288-1783422522559-5212.jpg"
+    ]
   },
   {
     "id": "p4",
