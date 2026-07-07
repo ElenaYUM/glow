@@ -54,26 +54,29 @@
     "description": "Солнцезащитный стик Celimax защищает кожу от воздействия солнечных лучей UVA и UVB. Средство с легкой, нелипкой текстурой создает невесомое, комфортное покрытие с бархатистым финишем и матирует кожу, помогая устранить жирный блеск.   \n  \nПродукт в удобном формате стика легко наносится на кожу и равномерно распределяется, оставляя ощущение свежести – и никакой липкости. Стик помогает визуально выровнять текстуру кожи и уменьшить видимость пор, придавая коже лица более гладкий, матовый вид.   \nПодходит для жирной и комбинированной кожи.",
     "stock": 18,
     "photos": [
-      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3287-1783422438485-1204.jpg",
       "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3289-1783422457640-9455.jpg",
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3287-1783422438485-1204.jpg",
       "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3288-1783422522559-5212.jpg"
     ]
   },
   {
     "id": "p4",
-    "name": "Heartleaf 77% Soothing Toner",
-    "brand": "Anua",
+    "name": "MANYO herbgreen cleansing oil",
+    "brand": "Manyo",
     "category": "Уход за лицом",
-    "subcategory": "Тонеры",
-    "price": 1490,
-    "oldPrice": 1790,
+    "subcategory": "Солнцезащита (SPF)",
+    "price": 60,
+    "oldPrice": 60,
     "rating": 4.9,
     "reviews": 402,
     "emoji": "🍃",
     "gradient": "linear-gradient(160deg,#eef1ec,#dee5db)",
-    "badge": "BESTSELLER",
-    "description": "Успокаивающий тонер для чувствительной кожи.",
-    "stock": 40
+    "badge": "",
+    "description": "Успокаивающее гидрофильное масло эффективно удаляет водостойкий макияж, загрязнения, ороговевшие частицы и излишки себума.   \nЭкстракт полыни и масло чайного дерева помогают справиться с несовершенствами. Масла сои и жожоба питают. Масло оливы отшелушивает. Масло виноградных косточек восстанавливает.  \nЭкстракт зеленого чая увлажняет, тонизирует. Для всех типов кожи, особенно проблемной и чувствительной.",
+    "stock": 40,
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-2965-1783422640990-7401.jpg"
+    ]
   },
   {
     "id": "p5",
