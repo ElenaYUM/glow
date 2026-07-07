@@ -312,7 +312,7 @@
   },
   {
     "id": "p17",
-    "name": "GLOW Starter Routine Set",
+    "name": "Сыворотка с ретинолом Centellian24 Madeca TECA Retinolsom0.2 Firming Serum",
     "brand": "GLOW",
     "category": "Наборы",
     "subcategory": "",
@@ -320,11 +320,12 @@
     "oldPrice": 5200,
     "rating": 5,
     "reviews": 54,
-    "emoji": "🎁",
+    "emoji": "💧",
     "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
     "badge": "NEW",
-    "description": "Стартовый набор ухода: тонер, сыворотка, крем, SPF.",
-    "stock": 15
+    "description": "Centellian24 Madeca TECA Retinolsom0.2\nFirming Serum Сыворотка с ретинолом для упругой, гладкой и сияющей кожи\n- Повышает упругость и плотность кожи\n- Разглаживает морщины и заломы\n- Сужает расширенные поры\n— Улучшает тон и возвращает здоровое сияние\n- Интенсивно увлажняет без липкости\n• Рекомендуется использовать вечером",
+    "stock": 15,
+    "photos": []
   },
   {
     "id": "p18",
