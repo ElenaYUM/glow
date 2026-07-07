@@ -1,5 +1,24 @@
 [
   {
+    "id": "p1783434284238",
+    "name": "Сыворотка с ретинолом Centellian24 Madeca TECA Retinolsom0.2 Firming Serum",
+    "brand": "Centellian24",
+    "category": "Уход за лицом",
+    "subcategory": "Сыворотки и эссенции",
+    "price": 60,
+    "oldPrice": 60,
+    "rating": 5,
+    "reviews": 1,
+    "emoji": "🧴",
+    "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3489-1783434269659-664.jpg"
+    ],
+    "badge": "",
+    "description": "Centellian24 Madeca TECA Retinolsom0.2\nFirming Serum Сыворотка с ретинолом для упругой, гладкой и сияющей кожи\n- Повышает упругость и плотность кожи\n- Разглаживает морщины и заломы\n- Сужает расширенные поры\n— Улучшает тон и возвращает здоровое сияние\n- Интенсивно увлажняет без липкости\n• Рекомендуется использовать вечером",
+    "stock": 1
+  },
+  {
     "id": "p1783251439777",
     "name": "Anua glow stick",
     "brand": "Anua",
