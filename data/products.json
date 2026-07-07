@@ -99,19 +99,22 @@
   },
   {
     "id": "p6",
-    "name": "Birch Juice Moisturizing Sunscreen SPF50+",
-    "brand": "Round Lab",
+    "name": "Глубоко очищающая пенка для сужения пор SKIN1004 Madagascar Centella Poremizing Deep Cleansing Foam, 125мл",
+    "brand": "Skin 1004",
     "category": "Уход за лицом",
-    "subcategory": "Солнцезащита (SPF)",
-    "price": 1590,
+    "subcategory": "Очищение",
+    "price": 40,
     "oldPrice": 0,
     "rating": 4.8,
     "reviews": 176,
     "emoji": "☀",
     "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
-    "badge": "NEW",
-    "description": "Увлажняющий санскрин без белёсости.",
-    "stock": 27
+    "badge": "",
+    "description": "Глубоко очищающая пенка для сужения пор SKIN1004 Madagascar Centella Poremizing Deep Cleansing Foam эффективно удаляет все загрязнения и излишки кожного сала, растворяет жировые пробки, а также мягко полирует и отшелушивает кожу. Смягчает огрубевшие участки дермы и осветляет сальные нити, делая чёрные точки менее заметными.\n\n\nРегулирует выработку кожного сала, снижает жирность в течение дня и матирует. Способствует укреплению защитных функций эпидермиса и повышению эластичность стенок сосудов. Растительные экстракты помогают успокоить раздражённую кожу, снимают зуд и заживляют воспаления.",
+    "stock": 27,
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3262-1783424983229-4429.jpg"
+    ]
   },
   {
     "id": "p7",
