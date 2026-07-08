@@ -1,5 +1,24 @@
 [
   {
+    "id": "p1783518555624",
+    "name": "Tsubaki Premium Repair Mask Профессиональная экспресс маска для волос 180гр",
+    "brand": "Tsubaki",
+    "category": "Уход за волосами",
+    "subcategory": "",
+    "price": 50,
+    "oldPrice": 50,
+    "rating": 5,
+    "reviews": 1,
+    "emoji": "🧴",
+    "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-3546-1783518551716-2214.jpg"
+    ],
+    "badge": "",
+    "description": "Маска для волос  Tsubaki Premium Repair Mask  использует новейшую инновационную технологию CMC (Cell Membrane Complex), которая сразу глубоко проникает в структуру волоса и уплотняет ее.  Мгновенный салонный результат у вас дома! Маска имеет самую высокую концентрацию японского масла камелии Tsubaki. Жемчужный белок, аминокислоты, маточное молочко и глицерин восстанавливают, укрепляют и увлажняют волосы. Волосы выглядят блестящими и гладкими от корней до самых кончиков, при этом объем не теряется. Очень приятный тонкий аромат.",
+    "stock": 1
+  },
+  {
     "id": "p1783518414654",
     "name": "VT Cosmetics 100dL PDRN Cica Reedle Shot Hair Ampoule",
     "brand": "VT COSMETICS",
