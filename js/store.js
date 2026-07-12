@@ -16,8 +16,8 @@ const GLOW = (() => {
     admin: "glow_admin_session",
   };
 
-  const FREE_SHIPPING_FROM = 3000; // Br — порог бесплатной доставки
-  const SHIPPING_COST = 290;       // Br — стоимость доставки ниже порога
+  const FREE_SHIPPING_FROM = 100; // Br — порог бесплатной доставки
+  const SHIPPING_COST = 7;        // Br — стоимость доставки ниже порога
   const PROMOS = { GLOW10: 10, SEOUL15: 15, BEAUTY: 5 }; // промокоды → % скидки
 
   const ADMIN_PASSWORD = "Yum30555"; // пароль админки
