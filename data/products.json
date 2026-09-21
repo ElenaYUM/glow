@@ -1,5 +1,24 @@
 [
   {
+    "id": "p1790015514075",
+    "name": "Tsubaki фиолетовая линейка - шампунь и кондиционер",
+    "brand": "TSUBAKI",
+    "category": "Уход за волосами",
+    "subcategory": "",
+    "price": 80,
+    "oldPrice": 90,
+    "rating": 5,
+    "reviews": 0,
+    "emoji": "🧴",
+    "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-7936-1790015510598-6520.jpg"
+    ],
+    "badge": "NEW",
+    "description": "Tsubaki фиолетовая линейка - шампунь и\nкондиционер для глубокого восстановления волос\nШампунь Tsubaki Premium EX Intense Repair\nБережно очищает кожу головы и волосы, удаляя загрязнения без пересушивания. Помогает восстановить сухие, повреждённые и ломкие волосы после окрашивания и укладок. Делает волосы более гладкими, мягкими и блестящими уже после первого применения.\nКондиционер Tsubaki Premium EX Intense Repair\nИнтенсивно питает и увлажняет длину, разглаживает пушистость и облегчает расчёсывание. Запечатывает влагу внутри волоса, помогает уменьшить ломкость и вернуть ухоженный, шелковистый вид. Волосы становятся послушными, плотными и сияющими.\n* Идеально подходит для сухих, повреждённых и тусклых ВОЛОС.\n24 апреля\n• Нежный японский аромат остаётся на волосах надолго.",
+    "stock": 10
+  },
+  {
     "id": "p1790014916894",
     "name": "Осветляющая сыворотка с витамином C и пептидами SKIN&LAB Vitamin C Brightening Serum 30 мл",
     "brand": "SKIN&LAB",
@@ -83,7 +102,7 @@
     "brand": "Esthetic House CP-1",
     "category": "Уход за волосами",
     "subcategory": "",
-    "price": 45,
+    "price": 40,
     "oldPrice": 55,
     "rating": 5,
     "reviews": 1,
@@ -102,7 +121,7 @@
     "brand": "Esthetic House CP-1",
     "category": "Уход за волосами",
     "subcategory": "",
-    "price": 45,
+    "price": 40,
     "oldPrice": 45,
     "rating": 5,
     "reviews": 0,
@@ -121,7 +140,7 @@
     "brand": "Esthetic House CP-1",
     "category": "Уход за волосами",
     "subcategory": "",
-    "price": 40,
+    "price": 35,
     "oldPrice": 35,
     "rating": 5,
     "reviews": 0,
