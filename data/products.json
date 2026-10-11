@@ -1,5 +1,43 @@
 [
   {
+    "id": "p1791722078778",
+    "name": "HEMPZ Dark Red Cherries Body Moisturizer",
+    "brand": "HEMPZ",
+    "category": "Уход за телом",
+    "subcategory": "Лосьоны и кремы",
+    "price": 120,
+    "oldPrice": 140,
+    "rating": 5,
+    "reviews": 0,
+    "emoji": "🧴",
+    "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-8825-1791722003808-2460.jpg"
+    ],
+    "badge": "NEW",
+    "description": "Аромат сочной вишни и интенсивное увлажнение в одном флаконе\nЛосьон быстро впитывается, не липнет и делает кожу мягкой и гладкой на весь день.\n* Содержит натуральное масло семян конопли\n• Увлажнение до 48 часов\n* Подходит для ежедневного ухода бо Приятный сладко-фруктовый аромат\nИдеальный вариант для тех, кто любит, чтобы кожа была нежной, ухоженной и вкусно пахла",
+    "stock": 1
+  },
+  {
+    "id": "p1791721469716",
+    "name": "HERRA Lip Maximizer HR02",
+    "brand": "HERRA",
+    "category": "Декоративная косметика",
+    "subcategory": "",
+    "price": 35,
+    "oldPrice": 45,
+    "rating": 5,
+    "reviews": 0,
+    "emoji": "🧴",
+    "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-8291-1791721466928-7472.jpg"
+    ],
+    "badge": "NEW",
+    "description": "HERRA Lip Maximizer — это\nпопулярный блеск-плампер для губ, который придаёт визуальный объем, красивый глянцевый зеркальный блеск и дарит ощущение свежести за счет легкого охлаждающего эффекта или покалывания.\nОсобенности продукта\n• Эффект: Формула с пептидами разглаживает кожу губ, делает их более пухлыми и ухоженными.\n• Текстура: Комфортная, глянцевая и нелипкая.",
+    "stock": 5
+  },
+  {
     "id": "p1791721412643",
     "name": "HERRA Lip Maximizer HR03",
     "brand": "HERRA",
