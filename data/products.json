@@ -1,5 +1,24 @@
 [
   {
+    "id": "p1791734265117",
+    "name": "Подводка для глаз SenSulu",
+    "brand": "SenSulu",
+    "category": "Декоративная косметика",
+    "subcategory": "",
+    "price": 25,
+    "oldPrice": 28,
+    "rating": 5,
+    "reviews": 0,
+    "emoji": "🧴",
+    "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-8864-1791734204694-1216.jpg"
+    ],
+    "badge": "NEW",
+    "description": "Подводка для глаз SenSulu!\nИдеальная тонкая кисточка для создания точных линий и выразительного взгляда. Водостойкая формула сохраняет стойкость в течение всего дня, без размазываний и подтёков. Будьте уверены в своём макияже, куда бы вы ни отправились!",
+    "stock": 1
+  },
+  {
     "id": "p1791734019479",
     "name": "Тонер-пэды для выравнивания тона и рельефа кожи Celimax Pore+Dark Spot Brightening Pad, 40 шт",
     "brand": "CELIMAX",
