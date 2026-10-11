@@ -1,5 +1,24 @@
 [
   {
+    "id": "p1791733303107",
+    "name": "Двойной крем с ретиналем и пептидами Celimax The Vita-A Retinal Shot Tightening Dual Cream",
+    "brand": "CELIMAX",
+    "category": "Уход за лицом",
+    "subcategory": "Кремы для лица",
+    "price": 70,
+    "oldPrice": 80,
+    "rating": 5,
+    "reviews": 0,
+    "emoji": "🧴",
+    "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-8858-1791733300047-3002.jpg"
+    ],
+    "badge": "NEW",
+    "description": "Двойной крем с ретиналем и пептидами Celimax The Vita-A Retinal Shot Tightening Dual Cream обладает антивозрастным действием: поддерживает упругость и эластичность кожи, уменьшает выраженность заломов и сокращает глубину морщин. Успокаивает раздражение и снимает покраснение, выравнивает текстуру и смягчает. Содержит 0,05% ретиналя, 3% Матриксила, 5% пантенола, гвайазулен, ниацинамид и аденозин.",
+    "stock": 5
+  },
+  {
     "id": "p1791730386916",
     "name": "Premium Vita C Пищевая добавка с витамином С 2г х 20шт",
     "brand": "IL-YANG",
