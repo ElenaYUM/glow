@@ -1,5 +1,24 @@
 [
   {
+    "id": "p1791721412643",
+    "name": "HERRA Lip Maximizer HR03",
+    "brand": "HERRA",
+    "category": "Декоративная косметика",
+    "subcategory": "",
+    "price": 35,
+    "oldPrice": 45,
+    "rating": 5,
+    "reviews": 0,
+    "emoji": "🧴",
+    "gradient": "linear-gradient(160deg,#f3f1ee,#e7e2da)",
+    "photos": [
+      "https://raw.githubusercontent.com/ElenaYUM/glow/main/data/img/img-8290-1791721292499-4256.jpg"
+    ],
+    "badge": "NEW",
+    "description": "HERRA Lip Maximizer — это\nпопулярный блеск-плампер для губ, который придаёт визуальный объем, красивый глянцевый зеркальный блеск и дарит ощущение свежести за счет легкого охлаждающего эффекта или покалывания.\nОсобенности продукта\n• Эффект: Формула с пептидами разглаживает кожу губ, делает их более пухлыми и ухоженными.\n• Текстура: Комфортная, глянцевая и нелипкая.",
+    "stock": 5
+  },
+  {
     "id": "p1791721088345",
     "name": "Карандаш для губ HERRA Velvet Matte Lip Pencil HR05 Muse",
     "brand": "HERRA",
